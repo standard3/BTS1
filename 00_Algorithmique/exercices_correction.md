@@ -42,7 +42,7 @@ fin
 
 ## Exercice 3
 
-Ecrire un algorithme qui demande un nombre différent de 0 à l’utilisateur et l’informe ensuite si ce nombre est positif ou négatif ou nul.
+Ecrire un algorithme qui demande un nombre différent de 0 à l’utilisateur et l’informe ensuite si ce nombre est positif ou négatif.
 
 ```
 VARIABLES
@@ -159,6 +159,142 @@ DEBUT
     POUR i VARIANT DE 1 A max FAIRE
         somme <- somme + i;
     FIN POUR
-    ECRIRE("La somme des entier jusqu'à " max " est " somme);
+    ECRIRE("La somme des entiers jusqu'à " max " est " somme);
 FIN
 ```
+
+## Exercice 8
+
+Ecrire un algorithme qui demande successivement 5 nombres à l’utilisateur et qui affiche ensuite le plus grand parmi ces nombres.
+
+```
+VARIABLES
+    entier : n;
+    entier : i;
+    entier : max;
+DEBUT
+    max <- 0;
+    POUR i VARIANT DE 1 A 5 FAIRE
+        ECRIRE("Entrez un nombre : ");
+        LIRE(n);
+        SI (i == 1) ou (n > max) ALORS
+            max <- n;
+        FIN SI
+    FIN POUR
+    ECRIRE("Le nombre le plus grand est : " max );
+FIN
+```
+
+## Exercice 9
+
+Ecrire un algorithme qui déclare un tableau de 5 notes, dont on fait ensuite saisir les valeurs par l’utilisateur (notes comprises entre 0 et 20), après la saisie, affiche la moyenne des notes.
+
+```
+VARIABLES
+    tableau [5] de entier : notes;
+    entier : i,
+    entier : somme;
+    reel : moyenne;
+
+DEBUT
+    somme <- 0;
+    
+    POUR i VARIANT DE 0 à 4 FAIRE
+        FAIRE
+            ECRIRE("Entrez la note n°" i + 1);
+            LIRE(notes[i]);
+        TANT QUE (notes[i] < 0 ou notes[i] > 20)
+        somme<- somme + notes[i];
+    FIN POUR
+    
+    moyenne <- somme / 5;
+    ECRIRE("La moyenne des notes est " moyenne);
+FIN
+```
+
+## Exercice 10
+
+On vous demande régulièrement de modifier l'algorithme de l'exercice précédent pour changer le nombre de notes à saisir. Le modifier pour que cette modification soit réduite à la modification d'une seule valeur.
+
+```
+VARIABLES
+    constante  NB_NOTES : 5;
+    tableau [NB_NOTES] de entier : notes;
+    entier : i,
+    entier : somme;
+    reel : moyenne;
+
+DEBUT
+    somme <- 0;
+    
+    POUR i VARIANT DE 0 à NB_NOTES - 1 FAIRE
+        FAIRE
+            ECRIRE("Entrez la note n°" i + 1);
+            LIRE(notes[i]);
+        TANT QUE (notes[i] < 0 ou notes[i] > 20)
+        somme<- somme + notes[i];
+    FIN POUR
+    
+    moyenne <- somme / NB_NOTES;
+    ECRIRE("La moyenne des notes est " moyenne);
+FIN
+```
+
+## Exercice 11
+
+Ecrire la fonction ```occurence_max()``` qui renvoie le nombre d’occurrences de la lettre la plus présente dans un tableau de 10 caractères qui lui est passé en paramètre.
+
+```
+FONCTION occurence_max (tableau [10] de caractère : ch) : entier
+VARIABLES
+    entier : i;
+    entier : j;
+    entier : max;
+    entier : cpt;
+
+DEBUT
+    max <- 0;
+    POUR i VARIANT DE 0 A 9 FAIRE
+        cpt <- 0;
+        POUR j VARIANT DE 0 A 9 FAIRE
+            SI (ch[j] == ch[i]) ALORS
+                cpt <- cpt + 1;
+            FIN SI
+        FIN POUR
+        SI (cpt > max) ALORS
+            max <- cpt;
+        FIN SI
+    FIN POUR
+    
+    retour max;
+FIN
+```
+
+## Exercice 12
+
+Que fait la fonction ```f``` suivante :
+
+```
+FONCTION F (tableau [10] de entier : t) : entier
+VARIABLES
+    entier i;
+    entier m;
+    entier m2;
+DEBUT
+    m <- t[0] ;
+    m2 <- t[0];
+    POUR i VARIANT DE 0 A 9 FAIRE
+        SI (t[i] > m) ALORS
+            m2 <- m;
+            m <- t[i];
+        SINON
+            SI (t[i] > m2) ALORS
+                m2 <- t[i];
+            FIN SI
+        FIN SI
+    FIN POUR
+    RETOUR m2;
+FIN
+```
+
+Elle retourne le deuxième plus grand nombre du tableau d'entiers fourni en paramètre.
