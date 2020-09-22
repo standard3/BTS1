@@ -1,0 +1,42 @@
+VARIABLES
+	entier : nb_dés_selectionnés;
+	entier : nb_tours;
+	entier : i;
+	entier : dé_selectionné;
+	tableau [5] de entier : tableau_dés_lancés;
+	tableau [5] de entier : tableau_dés_selectionnés;
+
+DEBUT
+
+	nb_dés_selectionnés <- 0;
+	nb_tours <- 1;
+	
+	FAIRE
+	
+		// TO DO gérer les dés sélectionnés 
+		POUR i VARIANT DE 0 A 4 faire
+			tableau_dés[i] <- aleatoire(1, 6);
+		FIN POUR
+
+		ECRIRE("Tirage : " tableau_dés_lancés[0] " " tableau_dés_lancés[1] " " tableau_dés_lancés[2] " " tableau_dés_lancés[3] " " tableau_dés_lancés[4]);
+
+		SI (nb_tours < 3) ALORS
+			ECRIRE("Saisir les numéros des dés à conserver (1-5, 0 pour arrêter):");
+			FAIRE 
+				LIRE(dé_selectionné);
+				SI (dé_selectionné <> 0) ALORS 
+					tableau_dés_selectionnés[nb_dés_selectionnés] <- tableau_dés_lancés[dé_selectionné - 1];
+					nb_dés_selectionnés <- nb_dés_selectionnés + 1;
+				FIN SI
+			TANT QUE (dé_selectionné <> 0)
+		SINON
+			// TO DO sortir de la boucle
+		FIN SI
+	
+	TANT QUE (nb_dés_selectionnés <> 5)
+	
+FIN
+	
+	
+	
+	
