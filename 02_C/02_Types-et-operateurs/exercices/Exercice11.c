@@ -22,5 +22,9 @@ int f(int t[10])
 
 int main()
 {
+    int tableau[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+    printf("%d", f(tableau[10])); // Affiche la deuxième plus grande valeur du tableau tableau[]
+
     return 0;
 }
