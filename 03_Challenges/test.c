@@ -4,17 +4,13 @@
 #include <ctype.h>
 #include <string.h>
 
-char crypter(int decalage, char message[])
+void crypter(int decalage, char* message)
 {
     char ch;
     int i;
-    for (i = 0; message[i] != '\0'; ++i)
+    for (i = 0; message[i] != '\0'; ++i) // Nombre de lettres dans message
     {
-        while (message[i])
-        {
-            putchar(tolower(message[i])); // Convertir en lowercase
-            i++;
-        }
+        message[i] = tolower(message[i]);
 
         ch = message[i];
 
@@ -25,13 +21,14 @@ char crypter(int decalage, char message[])
             if (ch > 'z')
             {
                 ch -= 'z' + 'a' - 1;
+                
             }
             message[i] = ch;
         }
     }
-    return *message;
 }
 
+/*
 char decrypter(int decalage, char message[])
 {
     char ch;
@@ -58,11 +55,11 @@ char decrypter(int decalage, char message[])
         }
     }
     return *message;
-}
+}*/
 
 int main()
 {
-    char message[] = "";
+    char message[100];
     int decalage = 0, taille, choix;
 
     printf("Entrer le message : ");
@@ -74,16 +71,17 @@ int main()
     do
     {
         taille = strlen(message);
-        printf("\nEntrer le choix :\n1. Crypter\n2.Decrypter\n");
+        printf("\nEntrer le choix :\n1. Crypter\n2. Decrypter\n");
         scanf("%d", &choix);
 
         if (choix == 1)
         {
-            printf("Message crypte : %s", crypter(decalage, message));
+            crypter(decalage, message);
+            printf("Message crypte : %s", message);
         }
         else if (choix == 2)
         {
-            printf("Message decrypte : %s", decrypter(decalage, message));
+            //printf("Message decrypte : %s", decrypter(decalage, message));
         }
         else
         {
