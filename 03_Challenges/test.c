@@ -1,7 +1,6 @@
 // Ecrire un programme en C capable de crypter et décrypter des messages via le chiffre de César.
 
 #include <stdio.h>
-#include <ctype.h>
 #include <string.h>
 
 void crypter(int decalage, char* message)
@@ -21,7 +20,7 @@ void crypter(int decalage, char* message)
             if (ch > 'z')
             {
                 ch -= 'z' + 'a' - 1;
-                
+
             }
             message[i] = ch;
         }
