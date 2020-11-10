@@ -56,7 +56,7 @@ Ecrire un programme qui déclare la variable constante ```PI = 3.14``` et la var
 ```
 Un cercle de rayon 20cm
 pour diamètre 40cm,
-pour circonférence 125.60cm,
+pour périmètre 125.60cm,
 pour surface 1256.00 cm².
 ```
 
@@ -85,7 +85,7 @@ int main ()
     int a = 20, b = 5, c = -10, d = 2, e = 12, x;
     x = (4 * e) + 3 * ((2 * b) + 7);	// a =    b =    c =    d =    e =    x =    
     x = a == (b = 5);                   // a =    b =    c =    d =    e =    x =    
-    a += (e + 5);                       // a =    b =    c =    d =    e =    x =    
+    a += (e + 9);                       // a =    b =    c =    d =    e =    x =    
     x = a != (c *= (-d));               // a =    b =    c =    d =    e =    x =    
     return 0;
 }
@@ -100,15 +100,15 @@ résultats en commentaires :
 int main ()
 {
     int a = 5, b = 5, somme;
-    somme = a + b;  
+    somme =   a   +   b  ;  
     // a= 5   b= 5   somme= 10
-    somme = a + b;  
+    somme =   a   +   b  ;  
     // a= 6   b= 5   somme= 10
-    somme = a + b;  
+    somme =   a   +   b  ;  
     // a= 7   b= 5   somme= 12
-    somme = a + b;  
+    somme =   a   +   b  ;  
     // a= 6   b= 5   somme= 11
-    somme = a + b;  
+    somme =   a   +   b  ;  
     // a= 5   b= 4   somme= 11
     return 0;
 }

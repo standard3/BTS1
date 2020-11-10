@@ -4,7 +4,7 @@
 
 int main() {
     char haystack[] = "It's gonna be legend... wait for it... dary!";
-    char needle = 'a';
+    char needle = 'i';
     int i, count = 0;
     
     system("chcp 65001");
