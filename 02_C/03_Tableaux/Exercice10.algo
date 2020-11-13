@@ -1,0 +1,17 @@
+VARIABLE
+    chaine : texte [50];
+    chaine : consonnes[] = "bcdfghjklmnpqrstvwxz";
+    chaine : voyelles[] = "aeiouy";
+
+    entier : i;
+    entier : countConsonnes, countVoyelles, countCaracteresSpeciaux;
+
+DEBUT
+    Ecrire("Saisir une chaine (50 char max): ");
+    Lire(texte);
+
+    i <- 0;
+    POUR i VARIANT DE 0 À Longueur(texte[]) PAR PAS DE 1
+        texte[i] = Minuscule(texte[i]);
+
+        SI ()

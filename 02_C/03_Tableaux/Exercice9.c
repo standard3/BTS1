@@ -9,15 +9,26 @@ int main()
     strcat(ch3, ch1);
     strcat(ch3, " + ");
     strcat(ch3, ch2);
-    printf("%s", ch3);
+
+    puts(ch3);
 
     printf("\n");
 
-    // Deuxième version avec strcpy()
-    strcpy(ch3, ch1);
-    strcpy(ch3, " + ");
-    strcpy(ch3, ch2);
-    printf("%s", ch3);
+    // Deuxième version 
+
+    for (int i = 0; i < strlen(ch1); i++)
+    {
+        ch3[i] = ch1[i]; 
+    }
+    
+    ch3[strlen(ch1) + 1] = '+';
+
+    for (int i = 0; i < strlen(ch2 - 1); i++)
+    {
+        ch3[i + strlen(ch1) + 3] = ch2[i];
+    }
+
+    puts(ch3);
 
     return 0;
 }
