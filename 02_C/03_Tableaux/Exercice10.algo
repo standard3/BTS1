@@ -1,17 +1,46 @@
 VARIABLE
     chaine : texte [50];
-    chaine : consonnes[] = "bcdfghjklmnpqrstvwxz";
-    chaine : voyelles[] = "aeiouy";
+    chaine : consonnes[];
+    chaine : voyelles[];
 
     entier : i;
     entier : countConsonnes, countVoyelles, countCaracteresSpeciaux;
 
+FONCTION strchr (constante char : *chaine, entier : caractereCherche) : char
 DEBUT
+    TANT QUE (*chaine != (char)caractereCherche)
+        SI (!*chaine++)
+            RETOUR 0;
+        FIN SI
+    FIN TANT QUE
+    RETOUR (char *)chaine;
+FIN
+
+DEBUT
+    consonnes[] <- "bcdfghjklmnpqrstvwxz";
+    voyelles[] <- "aeiouy";
+
+    countConsonnes <- 0;
+    countVoyelles <- 0;
+    countCaracteresSpeciaux <- 0;
+
+    i <- 0;
+
     Ecrire("Saisir une chaine (50 char max): ");
     Lire(texte);
 
-    i <- 0;
-    POUR i VARIANT DE 0 À Longueur(texte[]) PAR PAS DE 1
-        texte[i] = Minuscule(texte[i]);
+    
+    POUR (i VARIANT DE 0 À Longueur(texte) PAR PAS DE 1)
+        texte[i] <- Minuscule(texte[i]);
 
-        SI ()
+        SI (strchr(consonnes, texte[i]) != NULL)
+            countConsonnes++;
+        SINON SI (strchr(voyelles, texte[i]) != NULL)
+            countVoyelles++;
+        SINON
+            countCaracteresSpeciaux++;
+        FIN SINON
+    FIN POUR
+
+    Ecrire("Voyelles : " + countVoyelles + " | Consonnes : " + countConsonnes + " | Caractères spéciaux : " + countCaracteresSpeciaux);
+FIN

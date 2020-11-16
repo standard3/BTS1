@@ -28,17 +28,17 @@ int main()
         // Check consonnes
         if (strchr(consonnes, texte[i]) != NULL)
         {
-            countConsonnes += 1;
+            countConsonnes++;
         }
         // Check voyelles
         else if (strchr(voyelles, texte[i]) != NULL)
         {
-            countVoyelles += 1;
+            countVoyelles++;
         }
         // Check caractères spéciaux
         else
         {
-            countCaracteresSpeciaux += 1;
+            countCaracteresSpeciaux++;
         }
     }
 
