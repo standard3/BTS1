@@ -1,5 +1,5 @@
 VARIABLE
-    chaine : texte [50];
+    chaine : texte[50];
     chaine : consonnes[];
     chaine : voyelles[];
 
