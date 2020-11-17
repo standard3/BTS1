@@ -1,7 +1,7 @@
 VARIABLE
-    chaine : texte[50];
-    chaine : consonnes[];
-    chaine : voyelles[];
+    tableau[50] de caractere : texte;
+    tableau[20] de caractere : consonnes;
+    tableau[6] de caractere : voyelles;
 
     entier : i;
     entier : countConsonnes, countVoyelles, countCaracteresSpeciaux;
@@ -17,8 +17,8 @@ DEBUT
 FIN
 
 DEBUT
-    consonnes[] <- "bcdfghjklmnpqrstvwxz";
-    voyelles[] <- "aeiouy";
+    consonnes <- "bcdfghjklmnpqrstvwxz";
+    voyelles <- "aeiouy";
 
     countConsonnes <- 0;
     countVoyelles <- 0;

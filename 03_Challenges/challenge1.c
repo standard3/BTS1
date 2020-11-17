@@ -1,76 +1,68 @@
 // Ecrire un programme en C capable de crypter et décrypter des messages via le chiffre de César.
 
 #include <stdio.h>
+#include <string.h>
+#include <ctype.h>
 
-int crypter(int decalage, char message[])
+int main()
 {
-    int i = 0;
+    char message[100];
+    short decalage = 0; 
+    short tailleMessage; 
+    short choix;
 
-    while (message[i] != '\0')
+    printf("Entrer le message : ");
+    gets(message);
+
+    printf("\nEntrer le decalage : ");
+    scanf("%d", &decalage);
+
+    tailleMessage = strlen(message);
+    printf("\nEntrer le choix :\n1. Crypter\n2. Decrypter\n");
+    scanf("%d", &choix);
+
+    switch(choix)
     {
-        if (message[i] >= 'A' && message[i] <= 'Z')
-        {
-            char c = message[i] - 'A';
-            c += decalage;
-            c = c % 26;
-            message[i] = c + 'A';
-        }
-        i++;
-    }
-    return *message;
-}
+        case 1: // Crypter
+            for (int i = 0; i < tailleMessage; i++) // Nombre de lettres dans message
+            {
+                message[i] = tolower(message[i]);
 
-int decrypter(int decalage, char message[])
-{
-    
-}
+                if (message[i] + decalage > 'z')
+                {
+                    message[i] += decalage;
+                    message[i] -= 26;
+                }
+                else
+                {
+                    message[i] += decalage;
+                }
+            }
+            printf("Message crypte : %s", message);
+            break;
 
-int main() 
-{
-    //char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'i', 'v', 'w', 'x', 'y', 'z'};
-    char message[50] = {};
-    int decalage;
-    char choix;
+        case 2: // Décrypter
+            for (int i = 0; i < tailleMessage; i++) // Nombre de lettres dans message
+            {
+                message[i] = tolower(message[i]);
 
-    while(choix != 'q')
-    {
-        printf("Voulez-vous crypter ou decrypter un message ? (c/d)\n");
-        printf("(q) pour quitter\n");
-        scanf("%c", &choix);
-        
-        switch (choix)
-        {
-            case 'c': // Crypter
-                printf("Quel est le message a crypter ? : ");
-                scanf("%s", &message);
-
-                printf("Quel est le decalage souhaite ? : ");
-                scanf("%d", &decalage);
-
-                printf("Message : %s", crypter(decalage, message));
-                break;
-
-            case 'd': // Décrypter
-                printf("Quel est le message à decrypter ? : ");
-                scanf("%s", &message);
-
-                printf("Quel est le decalage imposé ? : ");
-                scanf("%d", &decalage);
-
-                printf("%s", crypter(decalage, message));
-                break;
-
-            case 'q':
-                choix = 'q';
-                break;
-
-            default:
-                printf("Saisie incorrecte, veuillez reessayer.\n");
-                break;
-        }
+                if (message[i] - decalage < 'a')
+                {
+                    message[i] -= decalage;
+                    message[i] += 26;
+                }
+                else
+                {
+                    message[i] -= decalage;
+                }
             
-    }
+            }
+            printf("Message decrypte : %s", message);
+            break;
+
+        default:
+            printf("Mauvaise saisie, reesayer.\n");
+            break;
+    }     
     return 0;
 }
-
-// Boucle
