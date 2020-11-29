@@ -125,6 +125,83 @@ void CalculScore(int ligne)
         totalSix *= 6;
         break;
 
+    case 7: // Brelan
+        for (int i = 0; i < 5; ++i)
+        {
+            if (tableau_des_selectionnes[i] >= 3) 
+            {
+                totalBrelan += (i + 1) * tableau_des_selectionnes[i];
+            }
+        }
+        break;
+    
+    case 8: // Carré
+        for (int i = 0; i < 5; ++i)
+        {
+            if (tableau_des_selectionnes[i] >= 4)
+            {
+                totalCarre += (i + 1) * tableau_des_selectionnes[i];
+            }
+        }
+        break;
+    
+    case 9: // Full
+        int compteur = 0;
+        for (int i = 0; i < 5; ++i)
+        {
+            if (tableau_des_selectionnes[i] == 5)
+            {
+                totalFull += 25;
+            }
+            else
+            {
+                compteur += tableau_des_selectionnes[i];
+            }
+        }
+        compteur == 5 ? 25 : 0;
+        break;
+
+    case 10: // Petite suite
+        if (tableau_des_selectionnes[1] && tableau_des_selectionnes[2])
+        {
+            if ((tableau_des_selectionnes[0] && tableau_des_selectionnes[1]) || (tableau_des_selectionnes[1] && tableau_des_selectionnes[3]) || (tableau_des_selectionnes[3] && tableau_des_selectionnes[4]))
+            {
+                totalPetiteSuite += 30;
+            }
+        }
+        break;
+
+    case 11: // Grande suite
+        if (tableau_des_selectionnes[1] == 1 && tableau_des_selectionnes[2] == 1 && tableau_des_selectionnes[3] == 1 && tableau_des_selectionnes[4] == 1)
+        {
+            totalGrandeSuite += 40;
+        }
+        break;
+
+    case 12: // Yahtzee
+        for (int i = 0; i < 5; i++)
+        {
+            if (tableau_des_selectionnes[i] == 5)
+            {
+                totalYahtzee += 50;
+            }
+        }
+        break;
+
+    case 13: // Chance
+        for (int i = 0; i < 5; i++)
+        {
+            totalChance += tableau_des_selectionnes[i];
+        }
+        break;
+
+    case 14: // Prime Yahtzee
+        for (int i = 0; i < 5; i++)
+        {
+            
+        }
+        break;
+
     default:
         printf("Mauvaise saisie ! Veuillez réessayer.");
         break; // <- À voir si ça ne casse pas le switch
