@@ -195,16 +195,16 @@ int main()
     } while (nb_des_selectionnes != 5 && nb_tours < 3);
     
     NouvelleFenetre();
-    //AfficheScore();
+    AfficheScore();
 
     // Choix de la case ou barrer
     ViderBuffer();
     int choixBarrer;
     printf("Souhaitez-vous barrer une case ? (1-14)(0 pour passer)\n");
-    scanf("%c", &choixBarrer);
+    scanf("%d", &choixBarrer);
     CalculScore(choixBarrer);
     //NouvelleFenetre();
-    //AfficheScore();
+    AfficheScore();
     
     return 0;
 }
