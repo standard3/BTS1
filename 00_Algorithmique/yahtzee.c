@@ -24,7 +24,7 @@ int totalAs = 0, totalDeux = 0, totalTrois = 0, totalQuatre = 0, totalCinq = 0, 
 int totalBrelan = 0, totalCarre = 0, totalFull = 0, totalPetiteSuite = 0, totalGrandeSuite = 0, totalYahtzee = 0, totalChance = 0, totalPrimeYahtzee = 0, totalSectionInferieure = 0;
 int totalGeneral = 0;
 
-void ViderBuffer() { for(int c = 0; c!='\n' && c!=EOF; c = getchar()); }
+void ViderBuffer() { for (int c = 0; c !='\n' && c != EOF; c = getchar()); }
 
 void NouvelleFenetre()
 {
@@ -146,6 +146,7 @@ void CalculScore(int ligne)
         break;
     
     case 9: // Full
+    /*
         int compteur = 0;
         for (int i = 0; i < 5; ++i)
         {
@@ -160,7 +161,7 @@ void CalculScore(int ligne)
         }
         compteur == 5 ? 25 : 0;
         break;
-
+    */
     case 10: // Petite suite
         if (tableau_des_selectionnes[1] && tableau_des_selectionnes[2])
         {
@@ -172,12 +173,13 @@ void CalculScore(int ligne)
         break;
 
     case 11: // Grande suite
-        if (tableau_des_selectionnes[1] == 1 && tableau_des_selectionnes[2] == 1 && tableau_des_selectionnes[3] == 1 && tableau_des_selectionnes[4] == 1)
+    /*
+        if (1)
         {
             totalGrandeSuite += 40;
         }
         break;
-
+    */
     case 12: // Yahtzee
         for (int i = 0; i < 5; i++)
         {
@@ -213,35 +215,35 @@ void CalculScore(int ligne)
 
 void AfficheScore()
 {
-    printf("   ┌────────────────────────────────────────┐\n");
-    printf("   │ Section supérieure                     │\n");
-    printf("   ├────────────────────────────────┬───────┤\n");
-    printf(" 1 │                   Total des AS │  %3d  │\n", totalAs);
-    printf(" 2 │                 Total des DEUX │  %3d  │\n", totalDeux);
-    printf(" 3 │                Total des TROIS │  %3d  │\n", totalTrois);
-    printf(" 4 │               Total des QUATRE │  %3d  │\n", totalQuatre);
-    printf(" 5 │                 Total des CINQ │  %3d  │\n", totalCinq);
-    printf(" 6 │                  Total des SIX │  %3d  │\n", totalSix);
-    printf("   │                          Total │  %3d  │\n", totalSectionSuperieure);
+    printf("┌────┬────────────────────────────────────────┐\n");
+    printf("│    │ Section supérieure                     │\n");
+    printf("│    ├────────────────────────────────┬───────┤\n");
+    printf("│  1 │                   Total des AS │  %3d  │\n", totalAs);
+    printf("│  2 │                 Total des DEUX │  %3d  │\n", totalDeux);
+    printf("│  3 │                Total des TROIS │  %3d  │\n", totalTrois);
+    printf("│  4 │               Total des QUATRE │  %3d  │\n", totalQuatre);
+    printf("│  5 │                 Total des CINQ │  %3d  │\n", totalCinq);
+    printf("│  6 │                  Total des SIX │  %3d  │\n", totalSix);
+    printf("│    │                          Total │  %3d  │\n", totalSectionSuperieure);
     if (totalSectionSuperieure >= 63) {totalSectionSuperieure += 35;} // Bonus
-    printf("   │ 63+        Prime des 35 points │  %3d  │\n", totalSectionSuperieure);
-    printf("   │ Total de la section supérieure │  %3d  │\n", totalSectionSuperieure);
-    printf("   ├────────────────────────────────┴───────┤\n");
-    printf("   │ Section inférieure                     │\n");
-    printf("   ├────────────────────────────────┬───────┤\n");
-    printf(" 7 │ Brelan         Total des 5 dés │  %3d  │\n", totalBrelan);
-    printf(" 8 │ Carré          Total des 5 dés │  %3d  │\n", totalCarre);
-    printf(" 9 │ Full                 25 points │  %3d  │\n", totalFull);
-    printf("10 │ Petite suite         30 points │  %3d  │\n", totalPetiteSuite);
-    printf("11 │ Grande suite         40 points │  %3d  │\n", totalGrandeSuite);
-    printf("12 │ Yahtzee              50 points │  %3d  │\n", totalYahtzee);
-    printf("13 │ Chance         Total des 5 dés │  %3d  │\n", totalChance);
-    printf("14 │ Prime Yahtzee       100 points │  %3d  │\n", totalPrimeYahtzee);
-    printf("   │ Total de la section inférieure │  %3d  │\n", totalSectionInferieure);
-    printf("   │ Total de la section supérieure │  %3d  │\n", totalSectionSuperieure);
-    printf("   ├────────────────────────────────┼───────┤\n");
-    printf("   │ Total général                  │  %3d  │\n", totalGeneral);
-    printf("   └────────────────────────────────┴───────┘\n");
+    printf("│    │ 63+        Prime des 35 points │  %3d  │\n", totalSectionSuperieure);
+    printf("│    │ Total de la section supérieure │  %3d  │\n", totalSectionSuperieure);
+    printf("│    ├────────────────────────────────┴───────┤\n");
+    printf("│    │ Section inférieure                     │\n");
+    printf("│    ├────────────────────────────────┬───────┤\n");
+    printf("│  7 │ Brelan         Total des 5 dés │  %3d  │\n", totalBrelan);
+    printf("│  8 │ Carré          Total des 5 dés │  %3d  │\n", totalCarre);
+    printf("│  9 │ Full                 25 points │  %3d  │\n", totalFull);
+    printf("│ 10 │ Petite suite         30 points │  %3d  │\n", totalPetiteSuite);
+    printf("│ 11 │ Grande suite         40 points │  %3d  │\n", totalGrandeSuite);
+    printf("│ 12 │ Yahtzee              50 points │  %3d  │\n", totalYahtzee);
+    printf("│ 13 │ Chance         Total des 5 dés │  %3d  │\n", totalChance);
+    printf("│ 14 │ Prime Yahtzee       100 points │  %3d  │\n", totalPrimeYahtzee);
+    printf("│    │ Total de la section inférieure │  %3d  │\n", totalSectionInferieure);
+    printf("│    │ Total de la section supérieure │  %3d  │\n", totalSectionSuperieure);
+    printf("│    ├────────────────────────────────┼───────┤\n");
+    printf("│    │ Total général                  │  %3d  │\n", totalGeneral);
+    printf("└────┴────────────────────────────────┴───────┘\n");
 }
 
 int main()
