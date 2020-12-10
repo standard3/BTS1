@@ -6,7 +6,7 @@ Reprendre l'[exercice 5](exercices_2.md/#Exercice-5) de la feuille d'exercices 2
 
 ## Exercice 2
 
-Reprendre l'[exercice 2](exercices_2.md/#Exercice-2) de la feuille d'exercices 2 sur les pointeurs en remplaçant la saisie du tableau par l'utilisateur par des paramètres passés au programme **sans limite de nombre** en ligne de commande.
+Reprendre l'[exercice 2](exercices_2.md/#Exercice-2) de la feuille d'exercices 2 sur les pointeurs en remplaçant la saisie du tableau par l'utilisateur par des paramètres passés au programme en ligne de commande (on fera attention aux nombres de valeurs passées).
 
 ## Exercice 3
 
