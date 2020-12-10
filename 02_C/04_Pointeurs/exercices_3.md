@@ -13,7 +13,7 @@ Reprendre l'[exercice 2](exercices_2.md/#Exercice-2) de la feuille d'exercices 2
 Créer une calculatrice simple en ligne de commande utilisant les paramètres passés en ligne de commandes :
 
 + un premier entier
-+ un opérateur parmi +, -, *, et /
++ un opérateur parmi +, -, x, et /
 + un second entier
 
 Résultat attendu :
