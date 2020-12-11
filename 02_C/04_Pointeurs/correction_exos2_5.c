@@ -3,19 +3,15 @@
 #include <string.h>
 #include <ctype.h>
 
-int main() {
+int main(int argc, char * argv[]) {
     system("chcp 65001");
-    char ch[100], * ptr;
+    char * ptr;
     // Le tableau de l'alphabet est initialisé avec des 0
     // Chaque cellule correspond à une lettre
     int i, alphabet[26] = {0};
-
-    // Saisie de la chaîne
-    puts("Chaîne de caractères :");
-    gets(ch);
     
     // Utilisation d'un pointeur pour progresser dans la chaîne
-    ptr = ch;
+    ptr = argv[1];
     // Tant qu'on ne rencontre pas le caractère de fin de chaîne
     while (*ptr != '\0') {
         // Comme les caractères sont stockés comme des entiers,
