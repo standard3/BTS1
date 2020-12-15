@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int   somme(int a, int b)          { return a + b; }
-int   soustraction(int a, int b)   { return a - b; }
-int   multiplication(int a, int b) { return a * b; }
-float division(int a, int b)       { return a / b; }
+int   somme(int, int);
+int   soustraction(int, int);
+int   multiplication(int, int);
+float division(int, int);
 
 int main(int argc, char ** argv)
 {
@@ -48,3 +48,34 @@ int main(int argc, char ** argv)
     }   
     return 0;
 }
+/**
+ * Somme de deux entiers
+ * @param a premier entier
+ * @param b deuxième entier
+ * @return Résultat de la somme des deux entiers
+ */
+int somme(int a, int b) { return a + b; }
+
+/**
+ * Soustraction de deux entiers
+ * @param a premier entier
+ * @param b deuxième entier
+ * @return Résultat de la soustraction des deux entiers
+ */
+int soustraction(int a, int b) { return a - b; }
+
+/**
+ * Multiplication de deux entiers
+ * @param a premier entier
+ * @param b deuxième entier
+ * @return Résultat de la multiplication des deux entiers
+ */
+int multiplication(int a, int b) { return a * b; }
+
+/**
+ * Division de deux réels
+ * @param a premier réel
+ * @param b deuxième réel
+ * @return Résultat de la division des deux réels
+ */
+float division(int a, int b) { return (float)a / (float)b; }
