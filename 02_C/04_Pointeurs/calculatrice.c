@@ -27,6 +27,11 @@ int main(int argc, char ** argv)
             result = a * b;
             break;
         case '/':
+            if ((a || b) == 0)
+            {
+                printf("Erreur : impossible de diviser par 0\n");
+                break;
+            }
             result = (float)a / (float)b;
             break;    
         default:
