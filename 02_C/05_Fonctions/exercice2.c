@@ -38,7 +38,7 @@ int main(int argc, char ** argv)
                 break;
             }
             result = division(a, b);
-            break;    
+            break;
         default:
             printf("Erreur inconnue\n");
             break;
