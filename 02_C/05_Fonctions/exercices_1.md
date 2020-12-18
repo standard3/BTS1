@@ -31,9 +31,13 @@ Reprendre le code de l'[exercice 3.3 sur les paramètres du main](../04_Pointeur
 2. Définir les 4 fonctions
 3. Faire appel aux 4 fonctions en lieu et place des calculs précédemment codés.
 
+# Commentaires
+
 ## Exercice 4
 
 Commenter correctement les fonctions de l'exercice 2.
+
+# Passage des arguments
 
 ## Exercice 5
 
@@ -47,3 +51,24 @@ Commenter correctement les fonctions de l'exercice 2.
     Qu'observez-vous ? Pourquoi ?
 
 2. Réécrire le programme en passant les arguments de la fonction d'échange par adresse. Qu'observez-vous ? Pourquoi ?
+
+## Exercice 6
+
+Ecrire un programme permettant l'affichage de la somme des carrés de deux nombres a et b de type float rentrés au clavier.
++ Le calcul se fera dans une fonction sommeCarre qui retourne le résultat.
++ Le format à l'affichage de la valeur calculée sera : Taille minimale = 5 caractères, Précision = 2.
+
+## Exercice 7
+
+Ecrire une fonction qui demande de saisir un entier et informe le programme principal si l'entier est supérieur à 100.
+Le programme principal affiche l'entier en indiquant son rang (<=100 ou >100).
+
+# Passage de tableaux
+
+## Exercice 8
+
+Ecrire une fonction qui va permettre de trouver la valeur minimum d'un tableau d'entiers (à initialiser dans le programme) ainsi que son indice.
+
+## Exercice 9
+
+Ecrire une fonction qui va permuter les valeurs minimum et maximum d'un tableau d'entiers (à initialiser dans le programme). Cette fonction fera appel à une autre fonction pour la permutation (swap).
