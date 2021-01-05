@@ -63,6 +63,48 @@ Ecrire un programme permettant l'affichage de la somme des carrés de deux nombr
 Ecrire une fonction qui demande de saisir un entier et informe le programme principal si l'entier est supérieur à 100.
 Le programme principal affiche l'entier en indiquant son rang (<=100 ou >100).
 
+## Exercice 7 3/4
+
+Corriger le programme suivant pour qu'il affiche à l'écran : 12.
+
+Vous ne pouvez ajouter que les caractères suivants : * & ( )
+
+```c
+#include "stdio.h"
+
+void fonction1(int);
+void fonction2(int);
+void fonction3(int);
+void fonction4(int);
+void fonction5(int);
+
+int main() {
+    int a = 4;
+    fonction1(&a);
+    printf("%d", a);
+}
+
+void fonction1(int b) {
+    b++;
+    fonction3(b);
+}
+void fonction2(int c) {
+    c += 44;
+    fonction5(c);
+}
+void fonction3(int d) {
+    d = d * 2;
+    fonction4(d);
+}
+void fonction4(int e) {
+    e = e * 10;
+    fonction2(e);
+}
+void fonction5(int f) {
+    f = f / 12;
+}
+```
+
 # Passage de tableaux
 
 ## Exercice 8
