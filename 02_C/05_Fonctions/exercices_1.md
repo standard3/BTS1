@@ -55,7 +55,7 @@ Commenter correctement les fonctions de l'exercice 2.
 ## Exercice 6
 
 Ecrire un programme permettant l'affichage de la somme des carrés de deux nombres a et b de type float rentrés au clavier.
-+ Le calcul se fera dans une fonction sommeCarre qui retourne le résultat.
++ Le calcul se fera dans une fonction sommeCarres qui retourne le résultat.
 + Le format à l'affichage de la valeur calculée sera : Taille minimale = 5 caractères, Précision = 2.
 
 ## Exercice 7
@@ -72,3 +72,38 @@ Ecrire une fonction qui va permettre de trouver la valeur minimum d'un tableau d
 ## Exercice 9
 
 Ecrire une fonction qui va permuter les valeurs minimum et maximum d'un tableau d'entiers (à initialiser dans le programme). Cette fonction fera appel à une autre fonction pour la permutation (swap).
+
+# Chaîner les fonctions
+
+## Exercice 10
+
+Dans un programme, écrire en un minimum de lignes chacun des éléments suivants :
+1) une fonction somme(a, b) qui renvoie la somme des deux entiers a et b
+2) une fonction carre(a) qui renvoie qui renvoie le carre de l'entier a
+3) une fonction racineCarree(a) qui renvoie la racine carrée de l'entier a
+5) la fonction principale, qui affiche à l'écran la longueur de l'hypothénuse d'un triangle rectangle dont les longueurs des deux autres côtés sont passés en paramètre du programme.
+
+Exemple de résultats attendus :
+```
+> hypothenuse.exe 1 1
+1.414214
+> hypothenuse.exe 1 2
+2.236068
+```
+
+## Exercice 11
+
+Ecrire le programme de l'exercice 10 en **une seule ligne** (contenu du main() :smiley:), en utilisant les fonctions de la bibliothèque math.h.
+
+> La documentation est disponible sur internet.
+
+## Exercice 12
+
+Écrire une fonction qui se contente de comptabiliser le nombre de fois où elle a été appelée en affichant un message de temps en temps, à savoir :
+
++ au premier appel :    *** Appel #1 ***
++ au dixième appel :    *** Appel #10 ***
++ au centième appel :   *** Appel #100 ***
++ et ainsi de suite pour le millième, le dix millième appel...
+
+On supposera que le nombre maximal d'appel ne peut dépasser la capacité d'un long (cf. limits.h). Pas de variable globale. La fonction ne retourne rien et ne possède pas de paramètre.
