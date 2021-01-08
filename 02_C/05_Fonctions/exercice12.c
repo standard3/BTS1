@@ -1,25 +1,18 @@
 #include <stdio.h>
-#include <conio.h>
-#include <limits.h>
 
-// max long : LONG_MAX
+void call();
 
 int main()
 {
-    for (long i = 1; i < LONG_MAX; i++)
-    {
-        if (i)
-        {
-            printf("*** Appel #%d ***\n", i);
-        }
-        
-        //getch();
-    }
+    for (int i = 0; i < 100; i++)
+        call();
 
     return 0;
 }
 
 void call()
 {
-    
+    static int count;
+    count++;
+    printf("%d\n", count);
 }
