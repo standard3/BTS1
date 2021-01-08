@@ -139,7 +139,15 @@ Ecrire le programme de l'exercice 10 en **une seule ligne** (contenu du main() :
 
 > La documentation est disponible sur internet.
 
+# Variables statiques
+
 ## Exercice 12
+
+Écrire une fonction qui comptabilise le nombre de fois où elle a été appelée en affichant à l'écran ce compte à chaque appel.
+
+Ecrire un programme qui l'appelle 100 fois.
+
+## Exercice 13
 
 Écrire une fonction qui se contente de comptabiliser le nombre de fois où elle a été appelée en affichant un message de temps en temps, à savoir :
 
@@ -149,3 +157,43 @@ Ecrire le programme de l'exercice 10 en **une seule ligne** (contenu du main() :
 + et ainsi de suite pour le millième, le dix millième appel...
 
 On supposera que le nombre maximal d'appel ne peut dépasser la capacité d'un long (cf. limits.h). Pas de variable globale. La fonction ne retourne rien et ne possède pas de paramètre.
+
+# Récursivité
+
+## Exercice 14
+
+A l'aide du squelette suivant, écrire la définition de la fonction récursive ```void count(int i, int max)```, qui affiche les nombres de 1 à 10 à l'écran.
+
+```c
+#include <stdio.h>
+
+void count(int, int);
+
+int main() {
+    count(1, 10);
+    return 0;
+}
+
+void count(int i, int max) {
+    // C'est ici que ça se passe !
+}
+```
+
+## Exercice 15
+
+A l'aide du squelette suivant, écrire la définition de la fonction récursive ```int count(int i, int max)```, qui affiche les nombres de 10 à 1 à l'écran.
+
+```c
+#include <stdio.h>
+
+int count(int, int);
+
+int main() {
+    count(1, 10);
+    return 0;
+}
+
+int count(int i, int max) {
+    // C'est ici que ça se passe !
+}
+```
