@@ -26,6 +26,7 @@ void NouvelleFenetre();
 void AfficheScore();
 void ViderBuffer();
 void CalculScore(int);
+void isSuite();
 
 int main()
 {
@@ -89,8 +90,8 @@ int main()
     int choixBarrer;
     printf("Souhaitez-vous barrer une case ? (1-14)(0 pour passer)\n");
     scanf("%d", &choixBarrer);
+    NouvelleFenetre();
     CalculScore(choixBarrer);
-    //NouvelleFenetre();
     AfficheScore();
     
     return 0;
@@ -128,13 +129,6 @@ void AfficheScore()
     printf("│    ├────────────────────────────────┼───────┤\n");
     printf("│    │ Total général                  │  %3d  │\n", tableauSectionInferieure[8] + tableauSectionSuperieure[6]);
     printf("└────┴────────────────────────────────┴───────┘\n");
-}
-
-void ViderBuffer() { for (int c = 0; c !='\n' && c != EOF; c = getchar()); }
-
-void NouvelleFenetre()
-{
-    system("cls");
 }
 
 void CalculScore(int ligne)
@@ -261,9 +255,33 @@ void CalculScore(int ligne)
     tableauSectionInferieure[8] += tableauSectionInferieure[0] + tableauSectionInferieure[1] + tableauSectionInferieure[2] + tableauSectionInferieure[3] + tableauSectionInferieure[4] + tableauSectionInferieure[5] + tableauSectionInferieure[6] + tableauSectionInferieure[7];
 }
 
-int isSuite()
+void isSuite()
 {
-    int tableau_face[6];
-    
+    int tableau_face[5];
+    // Copie de tableau_des_selectionnes dans tableau_face
+    for (int i = 0; i < 5; i++)
+        tableau_face[i] = tableau_des_selectionnes[i];
 
+    // Range le tableau dans l'ordre décroissant
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            if (tableau_face[j] < tableau_face[j + 1])
+            {
+                int temp = tableau_face[j];
+                tableau_face[j] = tableau_face[j + 1];
+                tableau_face[j + 1] = temp;
+            }
+        }
+    }
+
+    // if ()
+}
+
+void ViderBuffer() { for (int c = 0; c !='\n' && c != EOF; c = getchar()); }
+
+void NouvelleFenetre()
+{
+    system("cls");
 }
