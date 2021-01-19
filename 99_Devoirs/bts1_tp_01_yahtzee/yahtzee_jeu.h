@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
+#include "yahtzee_affichage.h"
 
 #define FALSE   0
 #define TRUE    1
@@ -103,8 +104,8 @@ void lancer_n_des(int * tableau_des_lances, int * nb_des_selectionnes) {
     int i;
     for (i = *nb_des_selectionnes; i < 5; i++) {
         // TO DO à décommenter :
-        // tableau_des_lances[i] = rand() % 6 + 1;
-        tableau_des_lances[i] = 6;
+        tableau_des_lances[i] = rand() % 6 + 1;
+        //tableau_des_lances[i] = 6;
     }
     *nb_des_selectionnes = 0;
 }
@@ -303,10 +304,9 @@ int verifier_suite_n_faces(int * faces, int count) {
  * @return le résultat de la somme des valeurs contenues dans le tableau
  * */
 int additionner_des(int * des) {
+    int somme = 0;
+    for (int i = 0; i < 5; i++)
+        somme += des[i];
     
-
-
-
-    
-    return 42;
+    return somme;
 }
