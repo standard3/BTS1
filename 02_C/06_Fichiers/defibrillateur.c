@@ -11,6 +11,7 @@ char* replace_char(char*, char, char);
 /* TODO
 * Sécuriser argc/argv: si pas bons arguments...
 * Améliorer lisibilité, tout commenter
+* Voir pourquoi appel programme position exacte ne marche pas
 */
 
 int main(int argc, char ** argv)
