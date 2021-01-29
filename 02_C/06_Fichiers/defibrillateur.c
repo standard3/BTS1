@@ -4,6 +4,8 @@
 #include <string.h>
 #include <float.h>
 
+#define SIZE_1 60
+
 char* replace_char(char*, char, char);
 
 /* TODO
@@ -14,12 +16,12 @@ char* replace_char(char*, char, char);
 int main(int argc, char ** argv)
 {   
     // Extrait de la longitude, latitude et de fichier source
-    float userLongitude = atof(replace_char(*(argv + 1), ',', '.'));
-    float userLatitude = atof(replace_char(*(argv + 2), ',', '.'));
+    double userLongitude = atof(replace_char(*(argv + 1), ',', '.'));
+    double userLatitude = atof(replace_char(*(argv + 2), ',', '.'));
     FILE * file = fopen(*(argv + 3), "r");
 
-    char defibrillateur[60] = {0};
-    char nearestDefibrillateur[60] = {0};
+    char defibrillateur[SIZE_1] = {0};
+    char nearestDefibrillateur[SIZE_1] = {0};
     char fileLongitude[30] = {0};
     char fileLatitude[30] = {0};
 
@@ -27,10 +29,13 @@ int main(int argc, char ** argv)
     char c;
     char line[210] = {0};
 
-    float x;
-    float y;
-    float distance; 
-    float nearestDistance = FLT_MAX;
+    double x;
+    double y;
+    double distance; 
+    double nearestDistance = FLT_MAX;
+
+    int j, k, l;
+    // int verif = 0;
 
     // Si pas d'erreur d'ouverture de fichier
     if (file != NULL)
@@ -38,13 +43,12 @@ int main(int argc, char ** argv)
         // Tant que toutes les lignes n'ont pas été lues
         while (fgets(line, 210, file) != NULL)
         {
-            int j = 0;
-            int a = 0;
-            int b = 0;
-
-            for (int i = 0; i <= strlen(line); i++)
+            j = k = l = 0;
+            nb = 0;
+            
+            for (int i = 0; i < strlen(line); i++)
             {
-                c = line[i]; // Régler ça
+                c = line[i];
 
                 if (c == ';')
                     nb++;
@@ -58,43 +62,41 @@ int main(int argc, char ** argv)
                     if (c == ',')
                         c = '.';
 
-                    if (a == 0)
-                        j = 0; a++;
-
-                    fileLongitude[j] = c;
-                    fileLongitude[17] = '\0';
-                    j++;
+                    fileLongitude[17] = '\0'; // FIX
+                    fileLongitude[k] = c;
+                    k++;
                 }
                 else if (nb == 5)
                 {
                     if (c == ',')
                         c = '.';
 
-                    if (b == 0)
-                        j = 0; b++;
-                    
-                    fileLatitude[j] = c;
                     fileLatitude[17] = '\0';
-                    j++;
+                    fileLatitude[l] = c;
+                    l++;
                 }
-                else if (c == '\0')
-                {
-                    x = (atof(fileLongitude) - userLongitude) * cos((userLatitude + atof(fileLatitude)) / 2);
-                    y = (atof(fileLatitude) - userLatitude);
-                    distance = sqrt(pow(x, 2) + pow(y, 2)) * 6371;
+            }
 
-                    // Sauvegarde la distance et le nom du défibrillateur
-                    if (distance < nearestDistance)
-                    {
-                        nearestDistance = distance;
-                        for (int i = 0; i < 60; i++)
-                            nearestDefibrillateur[i] = defibrillateur[i];
-                    }
-                }
+            //printf("%s\n", fileLatitude);
+            x = (atof(fileLongitude) - userLongitude) * cos((userLatitude + atof(fileLatitude)) / 2);
+            y = (atof(fileLatitude) - userLatitude);
+            distance = sqrt(pow(x, 2) + pow(y, 2)) * 6371;
+
+            // Sauvegarde la distance et le nom du défibrillateur
+            if (distance < nearestDistance)
+            {
+                nearestDistance = distance;
+                for (int i = 0; i < SIZE_1; i++)
+                    nearestDefibrillateur[i] = defibrillateur[i];
             }
         }      
     }
-
+    
+    printf("userLongitude: %.14f\n", userLongitude);
+    printf("userLatitude : %.14f\n\n", userLatitude);
+    printf("fileLongitude: %.14f\n", atof(fileLongitude));
+    printf("fileLatitude : %.14f\n\n", atof(fileLatitude));
+    printf("distance     : %.14f\n", distance);
     printf("%s\n", nearestDefibrillateur);
 
     fclose(file);
