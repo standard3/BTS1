@@ -4,7 +4,7 @@
 #include <string.h>
 #include <float.h>
 
-#define SIZE_1 60
+#define SIZE_1 100
 
 char* replace_char(char*, char, char);
 
@@ -36,7 +36,6 @@ int main(int argc, char ** argv)
     double nearestDistance = FLT_MAX;
 
     int j, k, l;
-    // int verif = 0;
 
     // Si pas d'erreur d'ouverture de fichier
     if (file != NULL)
@@ -46,7 +45,11 @@ int main(int argc, char ** argv)
         {
             j = k = l = 0;
             nb = 0;
-            
+
+            // Reset du contenu de defibrillateur
+            for (int i = 0; i < SIZE_1; i++)
+                defibrillateur[i] = '\0';
+
             for (int i = 0; i < strlen(line); i++)
             {
                 c = line[i];
@@ -78,7 +81,6 @@ int main(int argc, char ** argv)
                 }
             }
 
-            //printf("%s\n", fileLatitude);
             x = (atof(fileLongitude) - userLongitude) * cos((userLatitude + atof(fileLatitude)) / 2);
             y = (atof(fileLatitude) - userLatitude);
             distance = sqrt(pow(x, 2) + pow(y, 2)) * 6371;
@@ -87,17 +89,25 @@ int main(int argc, char ** argv)
             if (distance < nearestDistance)
             {
                 nearestDistance = distance;
+                // Reset du contenu de nearestDefibrillateur
                 for (int i = 0; i < SIZE_1; i++)
-                    nearestDefibrillateur[i] = defibrillateur[i];
+                    nearestDefibrillateur[i] = '\0';
+
+                for (int i = 0; i < SIZE_1; i++)
+                    nearestDefibrillateur[i] = defibrillateur[i];                    
             }
         }      
     }
     
+    /*
     printf("userLongitude: %.14f\n", userLongitude);
     printf("userLatitude : %.14f\n\n", userLatitude);
     printf("fileLongitude: %.14f\n", atof(fileLongitude));
     printf("fileLatitude : %.14f\n\n", atof(fileLatitude));
     printf("distance     : %.14f\n", distance);
+    printf("defibrillateur : %s\n", defibrillateur);
+    printf("nearestDefibrillateur : %s\n", nearestDefibrillateur);
+    */
     printf("%s\n", nearestDefibrillateur);
 
     fclose(file);
