@@ -5,8 +5,8 @@
 
 int main(int argc, char ** argv) {
     int i, nb = 0, i_nom_courant, i_lng_courant, i_lat_courant;
-    double longitude, latitude, lat, lng, distance;
-    char nom_courant[100], lng_courant[22], lat_courant[22];
+    double longitude, latitude, lat, lng, distance, min_distance = -1;
+    char nom_courant[100], defibrillateur[100] = "", lng_courant[22], lat_courant[22];
     FILE * fichier;
     char ligne[210];
 
@@ -63,11 +63,13 @@ int main(int argc, char ** argv) {
             lat = atof(lat_courant) * acos(-1) / 180;
 
             distance = sqrt(pow((lng - longitude) * cos((lat + latitude) / 2), 2) + pow(lat - latitude, 2)) * 6371;
-            //printf("%s : %.3f km\n", nom_courant, lat, lng, distance);
 
-            // TO DO : Ne conserver que la plus petite distance et le nom du défibrillateur correspondant
-
+            if (min_distance == -1 || distance < min_distance) {
+                min_distance = distance;
+                strcpy(defibrillateur, nom_courant);
+            }
         }
+        puts(defibrillateur);
 
         fclose(fichier);
     }
