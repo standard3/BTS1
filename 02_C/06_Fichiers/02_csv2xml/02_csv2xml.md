@@ -61,7 +61,7 @@ Les fichiers XML seront générés dans le dossier du fichier CSV et seront nomm
 
 ### Listing de contact
 
-Ce fichier CSV (séparateur : tabulation) contiendra pour chaque ligne du fichier ```20210202_export_npa.csv``` une ligne contenant les informations suivantes :
+Ce fichier CSV (séparateur : tabulation) contiendra pour chaque ligne du fichier ```20210202_input_npa.csv``` une ligne contenant les informations suivantes :
 
 + ID client unique
 + 1 si un fichier XML a été généré, 0 sinon
