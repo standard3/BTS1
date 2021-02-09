@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include "csv2xml.h"
 
+#define TRUE 1
+#define FALSE 0
+
+int  hasLegalAge(char *);
 void readLine(char *, char *, char *, char *, char *, char *, char *, char *);
 void createXML(char *, char *, char *, char *, char *, char *, char *);
 
@@ -13,34 +17,76 @@ int main()
     char   lastname[30];
     char   firstname[25];
     char   date_of_birth[11];
+    char   number[4];
     char   street[100];
     char   zipcode[6];
     char   city[50];
 
+    
     if (fileInput != NULL && fileContact != NULL)
     {
         while (fgets(line, 150, fileInput) != NULL)
         {
-            readLine(line, id, lastname, firstname, street, zipcode, city);
+            readLine(line, id, lastname, firstname, number, street, zipcode, city);
         }
     }
+    
 
-    // Calculer âge => estMajeur()
+    // Calculer âge => hasLegalAge()
 
     // Générer fichier XML => générerXML()
 
     // Écrire ligne dans contacts
 
+    
     fclose(fileInput);
     fclose(fileContact);
+    
 
     return 0;
 }
 
+int hasLegalAge(char * dob)
+{
+    const int daysInMonths[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    int today[3];
+    getToday(today);
+
+    int current_year = today[0], 
+        current_month = today[1], 
+        current_day = today[0];
+
+    int birth_year, 
+        birth_month, 
+        birth_day;
+
+    memcpy(atoi(birth_year), &dob[0], 2);
+    memcpy(atoi(birth_month), &dob[3], 2);
+    memcpy(atoi(birth_day), &dob[6], 2);
+    
+    if (birth_day > current_day)
+    {
+        current_day += daysInMonths[birth_month - 1];
+        current_month--;
+    }
+    
+    if (birth_month > current_month)
+    {
+        current_month += 12;
+        current_year--;
+    }
+
+    // Voir si ça marche vraiment...
+    if ((current_year - birth_year) < 18)
+        return FALSE;
+    else
+        return TRUE;
+}
+
 void readLine(char * line, char * id, char * lastname, char * firstname, char * number, char * street, char * zipcode, char * city)
 {
-    int countId, countLastname, countFirstname, countNumber, countStreet, countZipcode, countCity;
-    int count, countId, countLastname, countFirstname, countNumber, countStreet, countZipcode, countCity = 0;
+    int count, countId, countLastname, countFirstname, countNumber, countStreet, countZipcode, countCity;
+    count = countId = countLastname = countFirstname = countNumber = countStreet = countZipcode = countCity = 0;
     char c;
     
     for (int i = 0; i < strlen(line); i++)
@@ -96,34 +142,34 @@ void createXML(char * id, char * lastname, char * firstname, char * number, char
         switch (i)
         {
         case 0:
-            fprintf(xml, "a", "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+            fprintf(xml, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
             break;
         case 1:
-            fprintf(xml, "a", "<CLIENT>");
+            fprintf(xml, "<CLIENT>");
             break;
         case 2:
-            fprintf(xml, "a", "\t<LASTNAME>%s</LASTNAME>", topUpperExtended(lastname));
+            //fprintf(xml, "\t<LASTNAME>%s</LASTNAME>", toUpperExtended(lastname)); // DEBUG 
             break;
         case 3:
-            fprintf(xml, "a", "\t<FIRSTNAME>%s</FIRSTNAME>", firstname);
+            fprintf(xml, "\t<FIRSTNAME>%s</FIRSTNAME>", firstname);
             break;
         case 4:
-            fprintf(xml, "a", "\t<ADDRESS>");
+            fprintf(xml, "\t<ADDRESS>");
             break;
         case 5:
-            fprintf(xml, "a", "\t\t<STREET>%s %s</STREET>", number, street);
+            fprintf(xml, "\t\t<STREET>%s %s</STREET>", number, street);
             break;
         case 6:
-            fprintf(xml, "a", "\t\t<ZIPCODE>%s</ZIPCODE>", zipcode);
+            fprintf(xml, "\t\t<ZIPCODE>%s</ZIPCODE>", zipcode);
             break;
         case 7:
-            fprintf(xml, "a", "\t\t<CITY>%s</CITY>", city);
+            fprintf(xml, "\t\t<CITY>%s</CITY>", city);
             break;
         case 8:
-            fprintf(xml, "a", "\t</ADRESS>");
+            fprintf(xml, "\t</ADRESS>");
             break;
         case 9:
-            fprintf(xml, "a", "</CLIENT>");
+            fprintf(xml, "</CLIENT>");
             break;
         }
     }
