@@ -1,18 +1,21 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include "csv2xml.h"
 
 #define TRUE 1
 #define FALSE 0
+#define LINE_SIZE 150
 
 int  hasLegalAge(char *);
-void readLine(char *, char *, char *, char *, char *, char *, char *, char *);
+void readLine(char *, char *, char *, char *, char *, char *, char *, char *, char *);
 void createXML(char *, char *, char *, char *, char *, char *, char *);
 
 int main()
 {
-    FILE * fileInput   = fopen("/export_npa/input_npa.csv",    "r"); // fichier de test (mettre chemin absolu)
-    FILE * fileContact = fopen("/export_npa/contacts_npa.csv", "a"); // fichier de test
-    char   line[150];
+    FILE * fileInput   = fopen("E:\\Projects\\bts1\\BTS1\\02_C\\06_Fichiers\\02_csv2xml\\export_npa\\input_npa.csv",    "r"); // fichier de test
+    FILE * fileContact = fopen("E:\\Projects\\bts1\\BTS1\\02_C\\06_Fichiers\\02_csv2xml\\export_npa\\contacts_npa.csv", "a"); // fichier de test
+    char   line[LINE_SIZE];
     char   id[9];
     char   lastname[30];
     char   firstname[25];
@@ -22,29 +25,31 @@ int main()
     char   zipcode[6];
     char   city[50];
 
-    
-    if (fileInput != NULL && fileContact != NULL)
-    {
-        while (fgets(line, 150, fileInput) != NULL)
-        {
-            readLine(line, id, lastname, firstname, number, street, zipcode, city);
-        }
-    }
-    
+    system("chcp 65001");
 
+    if (fileInput != NULL && fileContact != NULL)
+        while (fgets(line, LINE_SIZE, fileInput) != NULL)
+        {
+            readLine(line, id, lastname, firstname, date_of_birth, number, street, zipcode, city);
+            if (hasLegalAge(date_of_birth))
+            {
+                createXML(id, lastname, firstname, number, street, zipcode, city);
+            }
+                
+        }
+            
     // Calculer âge => hasLegalAge()
 
     // Générer fichier XML => générerXML()
 
     // Écrire ligne dans contacts
 
-    
     fclose(fileInput);
     fclose(fileContact);
     
-
     return 0;
 }
+
 
 int hasLegalAge(char * dob)
 {
@@ -60,9 +65,9 @@ int hasLegalAge(char * dob)
         birth_month, 
         birth_day;
 
-    memcpy(atoi(birth_year), &dob[0], 2);
-    memcpy(atoi(birth_month), &dob[3], 2);
-    memcpy(atoi(birth_day), &dob[6], 2);
+    memcpy(&birth_year, &dob[0], 2);
+    memcpy(&birth_month, &dob[3], 2);
+    memcpy(&birth_day, &dob[6], 2);
     
     if (birth_day > current_day)
     {
@@ -83,10 +88,10 @@ int hasLegalAge(char * dob)
         return TRUE;
 }
 
-void readLine(char * line, char * id, char * lastname, char * firstname, char * number, char * street, char * zipcode, char * city)
+void readLine(char * line, char * id, char * lastname, char * firstname, char * dob, char * number, char * street, char * zipcode, char * city)
 {
-    int count, countId, countLastname, countFirstname, countNumber, countStreet, countZipcode, countCity;
-    count = countId = countLastname = countFirstname = countNumber = countStreet = countZipcode = countCity = 0;
+    int count, countSpaces, countId, countLastname, countFirstname, countDob, countNumber, countStreet, countZipcode, countCity;
+    count = countSpaces = countId = countLastname = countFirstname = countDob = countNumber = countStreet = countZipcode = countCity = 0;
     char c;
     
     for (int i = 0; i < strlen(line); i++)
@@ -99,19 +104,26 @@ void readLine(char * line, char * id, char * lastname, char * firstname, char * 
         {
             // ID
             if (count == 0)
-            {
                 id[countId++] = c;
-            }
             // Prénom Nom
             else if (count == 1)
             {
-
+                if (c == ' ')
+                    countSpaces++;
+                if (countSpaces == 0)
+                {
+                    firstname[countFirstname] = c;
+                    countFirstname++;
+                }
+                else if (!(c == ' ' && countSpaces == 1))
+                {
+                    lastname[countLastname] = c;
+                    countLastname++;
+                }
             }
             // Date de naissance
             else if (count == 2)
-            {
-
-            }
+                dob[countDob++] = c;
             // Numéro de voie
             else if (count == 3)
                 number[countNumber++] = c;
@@ -125,16 +137,32 @@ void readLine(char * line, char * id, char * lastname, char * firstname, char * 
             else if (count == 6)
                 city[countCity++] = c;
         }
-        
+
+        id[countId] = 
+        lastname[countLastname] = 
+        firstname[countFirstname] = 
+        dob[countDob] = 
+        number[countNumber] = 
+        street[countStreet] = 
+        zipcode[countZipcode] = 
+        city[countCity] = '\0';
     }
 
+    /* DEBUG */
+    printf("ID          : %s\n", id);
+    printf("Prenom Nom  : %s %s\n", firstname, lastname);
+    printf("Dob         : %s\n", dob);
+    printf("Numero voie : %s\n", number);
+    printf("Voie        : %s\n", street);
+    printf("Code postal : %s\n", zipcode);
+    printf("Ville       : %s\n\n", city);
 }
 
 void createXML(char * id, char * lastname, char * firstname, char * number, char * street, char * zipcode, char * city)
 {
     // Créé le fichier courrier_npa avec l'id
     char buf[38];
-    snprintf(buf, sizeof(buf), "/export_npa/courrier_npa_%s.xml", id);
+    snprintf(buf, sizeof(buf), "E:\\Projects\\bts1\\BTS1\\02_C\\06_Fichiers\\02_csv2xml\\export_npa\\courrier_npa_%s.xml", id);
     FILE * xml = fopen(buf, "a");
 
     for (int i = 0; i < 10; i++)
@@ -148,7 +176,8 @@ void createXML(char * id, char * lastname, char * firstname, char * number, char
             fprintf(xml, "<CLIENT>");
             break;
         case 2:
-            //fprintf(xml, "\t<LASTNAME>%s</LASTNAME>", toUpperExtended(lastname)); // DEBUG 
+            toUpperExtended(lastname);
+            fprintf(xml, "\t<LASTNAME>%s</LASTNAME>", lastname);
             break;
         case 3:
             fprintf(xml, "\t<FIRSTNAME>%s</FIRSTNAME>", firstname);
