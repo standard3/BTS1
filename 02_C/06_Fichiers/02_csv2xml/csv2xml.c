@@ -13,8 +13,22 @@ void createXML(char *, char *, char *, char *, char *, char *, char *);
 
 int main()
 {
-    FILE * fileInput   = fopen("E:\\Projects\\bts1\\BTS1\\02_C\\06_Fichiers\\02_csv2xml\\export_npa\\input_npa.csv",    "r"); // fichier de test
-    FILE * fileContact = fopen("E:\\Projects\\bts1\\BTS1\\02_C\\06_Fichiers\\02_csv2xml\\export_npa\\contacts_npa.csv", "a"); // fichier de test
+    int today[3];
+    getToday(today);
+
+    char input[256], contact[256];
+    sprintf(input, "E:\\Projects\\bts1\\BTS1\\02_C\\06_Fichiers\\02_csv2xml\\export_npa\\%d%d%d_input_npa.csv", today[0], today[1], today[2]);
+    sprintf(contact, "E:\\Projects\\bts1\\BTS1\\02_C\\06_Fichiers\\02_csv2xml\\export_npa\\%d%d%d_contacts_npa.csv", today[0], today[1], today[2]);
+
+    if(access(input, F_OK ) != 0)
+    {
+        printf("Error while retrieving today's input_npa.csv : \nPATH : %s\n", input);
+        return 0;
+    }
+        
+    FILE * fileInput   = fopen(input,   "r");
+    FILE * fileContact = fopen(contact, "a");
+
     char   line[LINE_SIZE];
     char   id[9];
     char   lastname[30];
@@ -28,28 +42,28 @@ int main()
     system("chcp 65001");
 
     if (fileInput != NULL && fileContact != NULL)
+    {
         while (fgets(line, LINE_SIZE, fileInput) != NULL)
         {
             readLine(line, id, lastname, firstname, date_of_birth, number, street, zipcode, city);
             if (hasLegalAge(date_of_birth))
-            {
+            {   
+                printf("Creating files for %s %s...\n", firstname, lastname);
+
                 createXML(id, lastname, firstname, number, street, zipcode, city);
+                // Écrire ligne dans contacts
+                fprintf(fileContact, "%s\t1\n", id);
             }
-                
+            else
+                fprintf(fileContact, "%s\t0\n", id);
         }
-            
-    // Calculer âge => hasLegalAge()
-
-    // Générer fichier XML => générerXML()
-
-    // Écrire ligne dans contacts
-
+        printf("Done !\n");
+    }     
     fclose(fileInput);
     fclose(fileContact);
     
     return 0;
 }
-
 
 int hasLegalAge(char * dob)
 {
@@ -57,18 +71,14 @@ int hasLegalAge(char * dob)
     int today[3];
     getToday(today);
 
-    int current_year = today[0], 
-        current_month = today[1], 
-        current_day = today[0];
+    int current_year = today[0], current_month = today[1], current_day = today[2];
+    char cBirth_year[5], cBirth_month[3], cBirth_day[3];
+    int birth_year, birth_month, birth_day;
 
-    int birth_year, 
-        birth_month, 
-        birth_day;
+    birth_day   = atoi(strncpy(cBirth_day, dob, 2));
+    birth_month = atoi(strncpy(cBirth_month, dob + 3, 2));
+    birth_year  = atoi(strncpy(cBirth_year, dob + 6, 4));
 
-    memcpy(&birth_year, &dob[0], 2);
-    memcpy(&birth_month, &dob[3], 2);
-    memcpy(&birth_day, &dob[6], 2);
-    
     if (birth_day > current_day)
     {
         current_day += daysInMonths[birth_month - 1];
@@ -81,7 +91,6 @@ int hasLegalAge(char * dob)
         current_year--;
     }
 
-    // Voir si ça marche vraiment...
     if ((current_year - birth_year) < 18)
         return FALSE;
     else
@@ -134,8 +143,8 @@ void readLine(char * line, char * id, char * lastname, char * firstname, char * 
             else if (count == 5)
                 zipcode[countZipcode++] = c;
             // Ville
-            else if (count == 6)
-                city[countCity++] = c;
+            else if (count == 6 && c != '\n')
+                city[countCity++] = c;   
         }
 
         id[countId] = 
@@ -147,58 +156,50 @@ void readLine(char * line, char * id, char * lastname, char * firstname, char * 
         zipcode[countZipcode] = 
         city[countCity] = '\0';
     }
-
-    /* DEBUG */
-    printf("ID          : %s\n", id);
-    printf("Prenom Nom  : %s %s\n", firstname, lastname);
-    printf("Dob         : %s\n", dob);
-    printf("Numero voie : %s\n", number);
-    printf("Voie        : %s\n", street);
-    printf("Code postal : %s\n", zipcode);
-    printf("Ville       : %s\n\n", city);
 }
 
 void createXML(char * id, char * lastname, char * firstname, char * number, char * street, char * zipcode, char * city)
 {
     // Créé le fichier courrier_npa avec l'id
-    char buf[38];
-    snprintf(buf, sizeof(buf), "E:\\Projects\\bts1\\BTS1\\02_C\\06_Fichiers\\02_csv2xml\\export_npa\\courrier_npa_%s.xml", id);
-    FILE * xml = fopen(buf, "a");
+    char buf[256];
+    sprintf(buf, "E:\\Projects\\bts1\\BTS1\\02_C\\06_Fichiers\\02_csv2xml\\export_npa\\courrier_npa_%s.xml", id);
+    FILE * xml = fopen(buf, "w");
 
     for (int i = 0; i < 10; i++)
     {
         switch (i)
         {
         case 0:
-            fprintf(xml, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+            fprintf(xml, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
             break;
         case 1:
-            fprintf(xml, "<CLIENT>");
+            fprintf(xml, "<CLIENT>\n");
             break;
         case 2:
             toUpperExtended(lastname);
-            fprintf(xml, "\t<LASTNAME>%s</LASTNAME>", lastname);
+            fprintf(xml, "\t<LASTNAME>%s</LASTNAME>\n", lastname);
             break;
         case 3:
-            fprintf(xml, "\t<FIRSTNAME>%s</FIRSTNAME>", firstname);
+            fprintf(xml, "\t<FIRSTNAME>%s</FIRSTNAME>\n", firstname);
             break;
         case 4:
-            fprintf(xml, "\t<ADDRESS>");
+            fprintf(xml, "\t<ADDRESS>\n");
             break;
         case 5:
-            fprintf(xml, "\t\t<STREET>%s %s</STREET>", number, street);
+            fprintf(xml, "\t\t<STREET>%s %s</STREET>\n", number, street);
             break;
         case 6:
-            fprintf(xml, "\t\t<ZIPCODE>%s</ZIPCODE>", zipcode);
+            fprintf(xml, "\t\t<ZIPCODE>%s</ZIPCODE>\n", zipcode);
             break;
         case 7:
-            fprintf(xml, "\t\t<CITY>%s</CITY>", city);
+            toUpperExtended(city);
+            fprintf(xml, "\t\t<CITY>%s</CITY>\n", city);
             break;
         case 8:
-            fprintf(xml, "\t</ADRESS>");
+            fprintf(xml, "\t</ADRESS>\n");
             break;
         case 9:
-            fprintf(xml, "</CLIENT>");
+            fprintf(xml, "</CLIENT>\n");
             break;
         }
     }
