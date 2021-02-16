@@ -18,7 +18,9 @@ int main() {
     if (fichierInput != NULL && fichierContacts != NULL) {
         while(fgets(ligne, 150, fichierInput) != NULL) {
             lireUneLigne(ligne, id, nom, prenom, dateDeNaissance, voie, cp, ville);
-            estMajeur(ajh, dateDeNaissance);
+            if (estMajeur(ajh, dateDeNaissance)) {
+                
+            }
         }
     } 
 
@@ -113,13 +115,17 @@ int estMajeur(int * ajh, char * dateDeNaissance) {
     iAnnee = atoi(sAnnee);
 
     if (ajh[0] - iAnnee > 18) {
-        resultat = 1
+        resultat = 1;
     }
     else if (ajh[0] - iAnnee == 18) {
         if (iMois < ajh[1]) {
             resultat = 1;
         }
-        // TODO - A finir à partir d'ici
+        else if (iMois == ajh[1]) {
+            if (iJour <= ajh[2]) {
+                resultat = 1;
+            }
+        }
     }
 
     return resultat;
