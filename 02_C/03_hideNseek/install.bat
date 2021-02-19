@@ -1,0 +1,1 @@
+start /MAX hide.bat
