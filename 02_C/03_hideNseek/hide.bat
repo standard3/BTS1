@@ -1,1 +1,0 @@
-gcc hide.c -o hide.exe && hide.exe

