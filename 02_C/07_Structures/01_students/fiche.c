@@ -41,8 +41,10 @@ int main()
     if (choice == 1) // Afficher la liste des fiches
     {
         // Implémenter newlign pour chaque fiche
-        printf("+----------------------------------+----------------------------------+---------+-------------+");
-        printf("|")
+        printf("+----------------------------------+----------------------------------+---------+-------------+\n");
+        printf("|               Nom                |              Prénom              |   Age   |    Classe   |\n");
+        printf("+----------------------------------+----------------------------------+---------+-------------+\n");
+        printf("| %30s                             | %30s                             |   %2d   | %2d         |\n", student.surname, student.name, student.age, student.level);
         return 0;
         // Supprimer la liste des fiches
     }
