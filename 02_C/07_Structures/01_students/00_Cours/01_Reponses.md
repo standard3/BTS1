@@ -1,10 +1,3 @@
-voir https://www.lct.jussieu.fr/pagesperso/jpp/structures.pdf
-
-et https://www.geeksforgeeks.org/difference-between-structure-and-array-in-c/
-9	Comment accède-t-on aux éléments de la structure ?
-10	Proposer un exemple qui crée un point p et qui affecte les valeurs 3 et 7 aux membres x et y de ce point.
-11	Proposer un exemple qui déplace le point de la question 10 de 3 sur l’axe des abscisses et de -2 sur l’axe des ordonnées.
-
 # Les structures
 
 ## Différence entre tableau et structure
@@ -58,6 +51,21 @@ struct point
 
 Sa variable structurée : `struct point Laval, Bonchamp, ...;`
 
+Exemple de création :
+
+````C
+struct point p;
+p.x = 3;
+p.y = 7;
+````
+
+Exemple de manipulation de la structure point (déplace le point de la question 10 de 3 sur abscisses et -2 sur ordonnées :
+
+````C
+p.x += 3;
+p.y -= 2;
+````
+
 ### Structure "student" qui répond à nos besoins
 
 ```
@@ -70,9 +78,21 @@ struct student
 };
 ```
 
-
 ## Définition d'une variable structurée
 
 La définition d'une variable structurée est une opération qui consiste à créer une variable ayant comme type celui d'une structure que l'on a précédemment déclarée, càd la nommer et lui réserver un emplacement en mémoire.
 
 Cela se définit comme suit : `struct nom_structure nom_var_structure;`
+
+## Accéder à un élément contenu dans une structure
+
+Chaque variable de type structure possède des champs repérés avec des noms uniques. Ceux-ci n'ont de contexte qu'au sein de la variable structurée.
+
+Pour accéder au champs d'une structure, on utilise l'opérateur de champ (**.**) : `Pierre.Age = 18` ou `Pierre.Sexe = 'M'`
+
+
+
+
+https://www.geeksforgeeks.org/difference-between-structure-and-array-in-c/
+
+https://www.lct.jussieu.fr/pagesperso/jpp/structures.pdf
