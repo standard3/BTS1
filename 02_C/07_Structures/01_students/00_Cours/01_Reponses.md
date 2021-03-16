@@ -1,3 +1,26 @@
+13	Comment doit-on s’y prendre pour copier une variable de type structuré dans une autre de même type ?
+
+14	Proposer un exemple avec le point de la question 10.
+
+15	Peut-on comparer deux variables de type structuré (i.e. pt1 == pt2) ?
+
+16	Comment initialise-t-on une variable de type structuré ?
+
+17	Proposer un exemple d’initialisation des deux points suivants : A(5, 3) et B (2, -2)
+
+18	Peut-on créer un pointeur sur une variable de type structuré ? Si oui, proposer un exemple avec la structure point.
+
+19	Si oui, comment accède-t-on aux membres à partir du pointeur ? Afficher les membres du pointeur précédent avec un printf en exemple.
+
+20	Si une structure est un type, on peut créer des structures ayant des membres de type structuré, proposer une déclaration d’une structure triangle composée de 3 points.
+
+21	Peut-on créer un tableau de type structuré ? Si oui, proposer un exemple avec la structure point.
+
+22	Si oui, comment accède-t-on aux membres des éléments du tableau ? En écriture pointeur ? En écriture tableau ? Afficher les membres du tableau précédent avec un printf en exemple.
+
+23	Peut-on utiliser des types structurés avec des fonctions ? en type retour ? en passage par valeur ? par adresse ? Donner des exemples pour chacun.
+
+
 # Les structures
 
 ## Différence entre tableau et structure
@@ -34,7 +57,7 @@ struct MaStructure
          char Nom[12];
          float MoyenneScolaire;
          struct AutreStructure StructBis; /* en considérant que la structure AutreStructure est définie */ 
-}; 
+};
 ```
 
 La déclaration d'une structure fonctionne sur le même principe que les variables (auto, static, ...).
@@ -90,9 +113,7 @@ Chaque variable de type structure possède des champs repérés avec des noms un
 
 Pour accéder au champs d'une structure, on utilise l'opérateur de champ (**.**) : `Pierre.Age = 18` ou `Pierre.Sexe = 'M'`
 
-
-
-
 https://www.geeksforgeeks.org/difference-between-structure-and-array-in-c/
 
 https://www.lct.jussieu.fr/pagesperso/jpp/structures.pdf
+

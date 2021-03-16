@@ -17,7 +17,7 @@ int main()
     getToday(today);
 
     char input[256], contact[256];
-    sprintf(input, "E:\\Projects\\bts1\\BTS1\\02_C\\06_Fichiers\\02_csv2xml\\export_npa\\%4d%02d%02d_input_npa.csv", today[0], today[1], today[2]);
+    sprintf(input,   "E:\\Projects\\bts1\\BTS1\\02_C\\06_Fichiers\\02_csv2xml\\export_npa\\%4d%02d%02d_input_npa.csv",    today[0], today[1], today[2]);
     sprintf(contact, "E:\\Projects\\bts1\\BTS1\\02_C\\06_Fichiers\\02_csv2xml\\export_npa\\%4d%02d%02d_contacts_npa.csv", today[0], today[1], today[2]);
 
     if(access(input, F_OK ) != 0)
