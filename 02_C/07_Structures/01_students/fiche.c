@@ -13,32 +13,37 @@
 #define AGE_MAX 27
 
 /* TODO:
-* Saisie de fiche
-* Affichage simple de fiche
+* Ajouter support de l'index pour suppression
 */
 
 struct Student
 {
+    int   index;
     char    name[CHAR_MAXIMUM];
     char surname[CHAR_MAXIMUM];
     short   age;
     short level;
 };
+struct Student student;
+struct Student saveStudent[100];
+
+int linesCount;
 
 void drawCard();
-void createCard(struct Student);
-void save      (struct Student);
+void createCard();
+void load();
+void save();
 void delete();
 void clearScreen();
 void toUpperExtended(char *);
 
 int main()
 {
-    struct Student student;
     int    choice;
     char   input[CHAR_MAXIMUM];
-    FILE * file = fopen("E:\\Projects\\bts1\\BTS1\\02_C\\07_Structures\\01_students\\fiche", 'a');
     
+    // Charger les valeurs inscrites dans le fichier binaire et inscrire dans saveStudent[];
+    load();
     system("chcp 65001");
 
     do
@@ -49,87 +54,9 @@ int main()
         sscanf(input, "%d", &choice);
         
         if (choice == 1) // Afficher la liste des fiches
-        {
             drawCard();
-            // Implémenter suppression liste des fiches
-            // delete();
-            return 0;
-        }
         else if (choice == 2) // Créer une fiche
-        {
-            do
-            {
-                clearScreen();
-                printf("Saisir le nom de l'élève (30 caractères au maximum) : \n");
-                gets(input);
-                sscanf(input, "%s", &student.surname);
-
-                if (strlen(student.surname) >= CHAR_MAXIMUM)
-                {
-                    printf("La saisie ne peut pas contenir plus de 30 caractères. \n");
-                    Sleep(3000);
-                }
-                
-                toUpperExtended(student.surname);
-            } while (strlen(student.surname) >= CHAR_MAXIMUM);
-            
-            do
-            {
-                clearScreen();
-                printf("Saisir le prénom de l'élève (30 caractères au maximum) : \n");
-                gets(input);
-                sscanf(input, "%s", &student.name);
-                
-                if (strlen(student.name) >= CHAR_MAXIMUM)
-                {
-                    printf("La saisie ne peut pas contenir plus de 30 caractères. \n");
-                    Sleep(3000);
-                }
-                
-                // Mettre première lettre en maj
-                //toUpperExtended(&(student.name + 1));
-                //puts(student.name);
-                //Sleep(100000);
-            } while (strlen(student.name) >= CHAR_MAXIMUM);
-            
-            do
-            {
-                clearScreen();
-                printf("Saisir l'âge de l'élève (27 ans maximum) : \n");
-                gets(input);
-                sscanf(input, "%d", &student.age);
-
-                if (student.age >= AGE_MAX)
-                {
-                    printf("L'âge ne peut pas être supérieur à %d ans. \n", AGE_MAX);
-                    Sleep(3000);
-                }
-                else if (student.age <= AGE_MIN)
-                {
-                    printf("L'âge ne peut pas être inférieur à %d ans. \n", AGE_MIN);
-                    Sleep(3000);
-                }
-                    
-            } while (student.age >= AGE_MAX || student.age <= AGE_MIN);
-                
-            do
-            {
-                clearScreen();
-                printf("-2 = Seconde, -1 = Première, 0 = Terminale, 1 = BTS1, 2 = BTS2 \n");
-                printf("Saisir le niveau de l'élève : \n");
-                gets(input);
-                sscanf(input, "%d", &student.level);
-
-                if (student.level < -2 || student.level > 2)
-                {
-                    printf("Saisie incorrecte. \n");
-                    Sleep(3000);
-                }
-
-            } while (student.level < -2 || student.level > 2);
-
-            // Stocker dans tableau
-        }
+            createCard();
         else if (choice == 3) // Quitter
             return 0;
         else
@@ -142,25 +69,139 @@ int main()
 
 void drawCard()
 {
-    // Implémenter protection si aucune liste n'existe
-    // Implémenter newlign pour chaque fiche
+    // Protection si aucun élèves
+    if (saveStudent[0].age == 0)
+    {
+        printf("Pas encore d'élèves inscrits !\n");
+        Sleep(3000);
+        clearScreen();
+        return;
+    }
+
+    char * classe[5] = {"Seconde", "Première", "Terminale", "BTS1", "BTS2"};
+
     clearScreen();
     printf("+----------------------------------+----------------------------------+---------+-------------+\n");
     printf("|               Nom                |              Prénom              |   Age   |    Classe   |\n");
     printf("+----------------------------------+----------------------------------+---------+-------------+\n");
-    // Boucle for pour chopper tous les etudiants dans le fichier binaire
-    printf("| %-32s | %-32s | %-7d | %-11d |\n", student.surname, student.name, student.age, student.level);
-    printf("+----------------------------------+----------------------------------+---------+-------------+\n");
+
+    for (int i = 0; i < 100; i++)
+    {
+        if (saveStudent[i].age != 0) // Pour ne pas afficher des cases vides
+        {
+            printf("| %-32s | %-32s | %-7d | %-11s |\n", saveStudent[i].surname, saveStudent[i].name, saveStudent[i].age, classe[saveStudent[i].level + 2]);
+            printf("+----------------------------------+----------------------------------+---------+-------------+\n");
+        }
+    }
 }
 
-void createCard(struct Student student)
+void createCard()
 {
+    char input[CHAR_MAXIMUM];
+    int studentCount = linesCount;
 
+    do
+    {
+        clearScreen();
+        printf("Saisir le nom de l'élève (30 caractères au maximum) : \n");
+        gets(input);
+        sscanf(input, "%s", &student.surname);
+
+        if (strlen(student.surname) >= CHAR_MAXIMUM)
+        {
+            printf("La saisie ne peut pas contenir plus de 30 caractères. \n");
+            Sleep(3000);
+        }
+        
+        toUpperExtended(student.surname);
+    } while (strlen(student.surname) >= CHAR_MAXIMUM);
+    
+    do
+    {
+        clearScreen();
+        printf("Saisir le prénom de l'élève (30 caractères au maximum) : \n");
+        gets(input);
+        sscanf(input, "%s", &student.name);
+        
+        if (strlen(student.name) >= CHAR_MAXIMUM)
+        {
+            printf("La saisie ne peut pas contenir plus de 30 caractères. \n");
+            Sleep(3000);
+        }
+        
+        // Mettre première lettre en maj
+        //toUpperExtended(&(student.name + 1));
+        //puts(student.name);
+        //Sleep(100000);
+    } while (strlen(student.name) >= CHAR_MAXIMUM);
+    
+    do
+    {
+        clearScreen();
+        printf("Saisir l'âge de l'élève (27 ans maximum) : \n");
+        gets(input);
+        sscanf(input, "%d", &student.age);
+
+        if (student.age > AGE_MAX)
+        {
+            printf("L'âge ne peut pas être supérieur à %d ans. \n", AGE_MAX);
+            Sleep(3000);
+        }
+        else if (student.age < AGE_MIN)
+        {
+            printf("L'âge ne peut pas être inférieur à %d ans. \n", AGE_MIN);
+            Sleep(3000);
+        }
+            
+    } while (student.age > AGE_MAX || student.age < AGE_MIN);
+        
+    do
+    {
+        clearScreen();
+        printf("-2 = Seconde, -1 = Première, 0 = Terminale, 1 = BTS1, 2 = BTS2 \n");
+        printf("Saisir le niveau de l'élève : \n");
+        gets(input);
+        sscanf(input, "%d", &student.level);
+
+        if (student.level < -2 || student.level > 2)
+        {
+            printf("Saisie incorrecte. \n");
+            Sleep(3000);
+        }
+
+    } while (student.level < -2 || student.level > 2);
+
+    // Sauvegarde de l'étudiant dans le tableau
+    strcpy(saveStudent[studentCount].surname, student.surname);
+    strcpy(saveStudent[studentCount].name, student.name);
+    saveStudent[studentCount].age = student.age;
+    saveStudent[studentCount].level = student.level;
+    
+    save();
+    studentCount++;
+
+    // Implémenter suppression liste des fiches
+    // delete();
 }
 
-void save(struct Student student)
+void load()
 {
+    struct Student buffer;
+    FILE * file = fopen("E:\\Projects\\bts1\\BTS1\\02_C\\07_Structures\\01_students\\fiche.bin", "rb");
 
+    for (int i = 0; fread(&buffer, sizeof(buffer), 1, file) != 0; i++)
+    {
+        saveStudent[i] = buffer;
+        linesCount++;
+    }
+    fclose(file);
+}
+
+void save()
+{
+    FILE * file = fopen("E:\\Projects\\bts1\\BTS1\\02_C\\07_Structures\\01_students\\fiche.bin", "ab");
+    fwrite(&(student), sizeof(student), 1, file);
+    fclose(file);
 }
 
 void delete()
