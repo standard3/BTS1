@@ -18,7 +18,6 @@
 
 struct Student
 {
-    int   index;
     char    name[CHAR_MAXIMUM];
     char surname[CHAR_MAXIMUM];
     short   age;
@@ -81,16 +80,16 @@ void drawCard()
     char * classe[5] = {"Seconde", "Première", "Terminale", "BTS1", "BTS2"};
 
     clearScreen();
-    printf("+----------------------------------+----------------------------------+---------+-------------+\n");
-    printf("|               Nom                |              Prénom              |   Age   |    Classe   |\n");
-    printf("+----------------------------------+----------------------------------+---------+-------------+\n");
+    printf("+--------+----------------------------------+----------------------------------+---------+-------------+\n");
+    printf("| Numéro |               Nom                |              Prénom              |   Age   |    Classe   |\n");
+    printf("+--------+----------------------------------+----------------------------------+---------+-------------+\n");
 
     for (int i = 0; i < 100; i++)
     {
         if (saveStudent[i].age != 0) // Pour ne pas afficher des cases vides
         {
-            printf("| %-32s | %-32s | %-7d | %-11s |\n", saveStudent[i].surname, saveStudent[i].name, saveStudent[i].age, classe[saveStudent[i].level + 2]);
-            printf("+----------------------------------+----------------------------------+---------+-------------+\n");
+            printf("| %-6d | %-32s | %-32s | %-7d | %-11s |\n", i + 1, saveStudent[i].surname, saveStudent[i].name, saveStudent[i].age, classe[saveStudent[i].level + 2]);
+            printf("+--------+----------------------------------+----------------------------------+---------+-------------+\n");
         }
     }
 }
@@ -206,7 +205,7 @@ void save()
 
 void delete()
 {
-
+    
 }
 
 void clearScreen() { system("cls"); }
