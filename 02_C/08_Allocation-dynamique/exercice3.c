@@ -5,7 +5,7 @@
 int main()
 {
     int input;
-    int  sizeArray = 0;
+    int sizeArray = 0;
     int *array = (int*) malloc(sizeArray * sizeof(int)); // On créer un tableau de 1
 
     system("chcp 65001");
