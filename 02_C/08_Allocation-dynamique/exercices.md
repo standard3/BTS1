@@ -26,3 +26,21 @@ On veut pouvoir saisir un tableau d’entiers. Le nombre d’entiers à saisir n
 ## Exercice 4
 
 Ecrire un programme qui permet à l'utilisateur de saisir un nombre indéfini de chaînes de caractères (127 caractères maximum). Les chaînes sont rangées successivement dans un tableau de pointeurs. La fin de la saisie sera signalée par une chaîne vide. Le programme affichera toutes les chaînes saisies avant de libérer la mémoire.
+
+## Exercice 5
+
+Dans cette exercice, nous allons mettre en place les éléments nécessaires pour créer, initialiser et détruire une matrice dont la taille (nombre de lignes / colonnes) et la valeur de départ seront données en arguments du programme :
+
+1) Dessiner une représentation mémoire de la matrice.
+
+2) Ecrire la fonction qui alloue la mémoire de la matrice de taille ```nbLignes``` x ```nbColonnes``` puis l'initialise avec ```valeur```. La fonction retourne la matrice. Son prototype est le suivant :
+```c
+int ** allouerMatrice(int nbLignes, int nbColonnes, int valeur)
+```
+
+3) Ecrire la fonction qui libère la matrice. Son prototype est le suivant :
+```c
+void libererMatrice(int ** matrice, int nbLignes)
+```
+
+4) Ecrire la fonction principale qui récupère les valeurs passées en arguments puis affiche la matrice pour tester vos fonctions.
