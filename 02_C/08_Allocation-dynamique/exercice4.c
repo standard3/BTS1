@@ -8,14 +8,14 @@ int main()
 {
     char sizeArray = 0;
     char input[CHAR_MAXIMUM];
-    char *storage = (char*) malloc(sizeof(input));
+    char **array = NULL;
 
-    system("chcp 65001");
+    //system("chcp 65001");
     while(1)
     {
         printf("Saisir chaîne de caractères (< 128 caractères, vide pour arrêter) :\n");
-        gets(input);
-        if (input != "§")
+        fgets(input, CHAR_MAXIMUM, stdin);
+        if (strcmp(input, "\n") != 0)
         {
             if (strlen(input) > 127)
             {
@@ -24,19 +24,22 @@ int main()
             }
 
             sizeArray++;
-            storage = (char*) realloc(storage, sizeArray * CHAR_MAXIMUM);
-            strcpy((storage + (sizeArray - 1)), input);
+            array = realloc(array, sizeArray * sizeof(char*));
+            array[sizeArray - 1] = (char*) malloc((strlen(input) + 1) * sizeof(char));
+            strncpy(array[sizeArray - 1], input, strlen(input) - 1);
+            array[sizeArray - 1][strlen(input)] = '\0';
         }
         else
             break;
     }
     
-    printf("storage[%d] : ", sizeArray);
+    printf("array[%d] : ", sizeArray);
     for (int i = 0; i < sizeArray; i++)
-        printf("[%s] ", *(storage + i)); // Afficher tableau + mémoire allouée
+        printf("[%s] ", *(array + i)); // Afficher tableau + mémoire allouée
 
-    free(storage);
-
+    for (int i = 0; i < sizeArray; i++)
+        free(array[i]);
+    free(array);
 
     return 0;
 }
