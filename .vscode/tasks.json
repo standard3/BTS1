@@ -3,12 +3,12 @@
         {
             "type": "shell",
             "label": "C/C++: gcc.exe build active file",
-            "command": "E:\\Projects\\vendors\\mingw64\\bin\\gcc.exe",
+            "command": "/usr/bin/gcc",
             "args": [
                 "-g",
                 "${file}",
                 "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+                "${fileDirname}/${fileBasenameNoExtension}.out"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
