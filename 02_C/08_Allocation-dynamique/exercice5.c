@@ -1,24 +1,30 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 int **allocateMatrix(int, int, int);
 void freeMatrix(int**, int);
 
-#define ROWS 3
-#define COLS 3
-
-int main()
+int main(int argc, char ** argv)
 {
-    int **matrix = allocateMatrix(ROWS, COLS, 0);
-
-    for (int i = 0; i < ROWS; i++)
+    if (argc < 4)
     {
-        for (int j = 0; j < COLS; j++)
+        printf("Utilisation : exercice5.out <lignes> <colonnes> <valeur>");
+        return 0;
+    }
+    
+    int rows = atoi(*(argv + 1));
+    int cols = atoi(*(argv + 2));
+    int **matrix = allocateMatrix(rows, cols, atoi(*(argv + 3)));
+
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
             printf("[%d]", matrix[i][j]);
         printf("\n");
     }
 
-    freeMatrix(matrix, ROWS);
+    freeMatrix(matrix, rows);
     return 0;
 }
 
