@@ -81,7 +81,11 @@ int main(int argc, char * argv[])
         strcpy(arguments[i].value, buffer);
     }
 
+    // Affichage simple
     // Format de fin : 1:200;:2;2:2;3:48;4:58,3,78;
+    for (int i = 0; i < (argc - 1) / 2; i++)
+        printf("%s:%s;", arguments[i].key, arguments[i].value);
+
 
     fclose(grammar);
     return 0;
