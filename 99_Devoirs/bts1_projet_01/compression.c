@@ -16,7 +16,7 @@ Identifier;
 
 typedef struct
 {
-    int key;
+    int  key;
     char value[MAX_VALUE];
 }
 Dictionnary;
@@ -68,13 +68,10 @@ int main(int argc, char * argv[])
             putInDictionnary(grammarLinesCount, grammar, toLowerExtended(argv[i]));
     }
 
-    // FIXXXXXX
     // Stockage du dictionnaire dans la structure
     fseek(grammar, 0, SEEK_SET);
-
-    // SEGMENTATION FAULT
     for (int i = 0; i < grammarLinesCount; i++)
-        fscanf(grammar, "%d:%[^\n]", dictionnary[i].key, dictionnary[i].value);
+        fscanf(grammar, "%d:%[^\n]", &dictionnary[i].key, dictionnary[i].value);
     
     
     /* TEST Affichage du dictionnaire */
