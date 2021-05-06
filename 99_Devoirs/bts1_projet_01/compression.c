@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <math.h>
 #include <stdlib.h>
 
 #define MAX_KEY   4
@@ -13,19 +14,25 @@ typedef struct
 }
 Identifier;
 
+typedef struct
+{
+    int key;
+    char value[MAX_VALUE];
+}
+Dictionnary;
+
 int   countLinesInDictionnary (FILE*);
-int   isInDictionnary         (int, Identifier[], char[]);
-void  putInDictionnary        (int, FILE*,        char[]);
+int   isInDictionnary         (int, Dictionnary[], char[]);
+void  putInDictionnary        (int, FILE*,         char[]);
 char* toLowerExtended         (char[]);
 int   isDigitExtended         (char[]);
-int   findIndexOf             (int, Identifier[], char[]);
+int   findIndexOf             (int, Dictionnary[], char[]);
 char* itoa                    (int, char*, int);
 
 /*  TODO:
 *   Implémenter les valeurs numériques ou chaînes de caractères statiques (Surface...)
 *   Implémenter système pour détecter si un chiffre (oui = pas de compression, pas d'entrée dans grammar.csv, sinon ignorer)
 *   Implémenter système pour prendre en compte les éléments numériques ET chaînes de caractères (ex: )
-*   Afficher arguments[] dans sortie standard
 */
 
 // Si temps restant, optimiser avec passage d'arguments par pointeurs
@@ -38,12 +45,12 @@ int main(int argc, char * argv[])
         return -1;
     } 
     
-    FILE      *grammar = fopen("/home/abel/Desktop/Repositories/BTS1/99_Devoirs/bts1_projet_01/gramar.csv", "ra");
-    int        grammarLinesCount = countLinesInDictionnary(grammar);
-    int        j = 0;
-    char      *buffer;
-    Identifier arguments  [(argc - 1) / 2];
-    Identifier dictionnary[grammarLinesCount];
+    FILE        *grammar = fopen("/home/abel/Desktop/Repositories/BTS1/99_Devoirs/bts1_projet_01/gramar.csv", "a+"); // Read + append
+    int         grammarLinesCount = countLinesInDictionnary(grammar);
+    int         j = 0;
+    char        buffer[256];
+    Identifier  *arguments   = malloc((argc - 1) / 2    * sizeof(Identifier));
+    Dictionnary *dictionnary = malloc(grammarLinesCount * sizeof(Dictionnary));
 
     // Stockage des arguments d'entrée dans la structure
     for (int i = 1; i < argc; i++)
@@ -64,30 +71,42 @@ int main(int argc, char * argv[])
     // FIXXXXXX
     // Stockage du dictionnaire dans la structure
     fseek(grammar, 0, SEEK_SET);
+
+    // SEGMENTATION FAULT
     for (int i = 0; i < grammarLinesCount; i++)
-        fscanf(grammar, "%s:%[^\n]", dictionnary[i].key, dictionnary[i].value);
-
-
+        fscanf(grammar, "%d:%[^\n]", dictionnary[i].key, dictionnary[i].value);
+    
+    
     /* TEST Affichage du dictionnaire */
     for (int i = 0; i < grammarLinesCount; i++)
-        printf("[%s:%s]\n", dictionnary[i].key, dictionnary[i].value);
+        printf("[%d:%s]\n", dictionnary[i].key, dictionnary[i].value);
     
-
+    
     // Conversion des mots par leurs index dans le dictionnaire 
     for (int i = 0; i < (argc - 1) / 2; i++)
     {
-        itoa(findIndexOf(grammarLinesCount, dictionnary, arguments[i].key), buffer, 10);
+        itoa(
+            findIndexOf(grammarLinesCount, dictionnary, arguments[i].key), 
+            buffer, 
+            10
+        );
         strcpy(arguments[i].key, buffer);
-        itoa(findIndexOf(grammarLinesCount, dictionnary, arguments[i].value), buffer, 10);
+
+        itoa(
+            findIndexOf(grammarLinesCount, dictionnary, arguments[i].value), 
+            buffer, 
+            10
+        );
         strcpy(arguments[i].value, buffer);
     }
-
+    
     // Affichage simple
     // Format de fin : 1:200;:2;2:2;3:48;4:58,3,78;
     for (int i = 0; i < (argc - 1) / 2; i++)
         printf("%s:%s;", arguments[i].key, arguments[i].value);
 
-
+    free(arguments);
+    free(dictionnary);
     fclose(grammar);
     return 0;
 }
@@ -123,7 +142,7 @@ int countLinesInDictionnary(FILE *grammar)
  * @param word String to check if it's in dictionnary
  * @return 1 if string is in dictionnary, else 0
  * */ 
-int isInDictionnary(int grammarLinesCount, Identifier dictionnary[], char word[])
+int isInDictionnary(int grammarLinesCount, Dictionnary dictionnary[], char word[])
 {
     for (int i = 0; i < grammarLinesCount; i++)
         if (strcmp(dictionnary[i].value, word) == 0)
@@ -141,7 +160,9 @@ int isInDictionnary(int grammarLinesCount, Identifier dictionnary[], char word[]
  * */ 
 void putInDictionnary(int grammarLinesCount, FILE *grammar, char word[])
 {
-    fprintf(grammar, "%d:%s", grammarLinesCount + 1, word);
+    static int localCount = 1;
+    fprintf(grammar, "\n%d:%s", grammarLinesCount + localCount + 1, word);
+    localCount++;
 }
 
 /**
@@ -194,42 +215,62 @@ int isDigitExtended(char word[])
  * @param word String to find index of
  * @return Index of word in dictionnary
  * */ 
-int findIndexOf(int grammarLinesCount, Identifier dictionnary[], char word[])
+int findIndexOf(int grammarLinesCount, Dictionnary dictionnary[], char word[])
 {
     for (int i = 0; i < grammarLinesCount; i++)
         if (strcmp(dictionnary[i].value, word) == 0)
-            return atoi(dictionnary[i].key);
+            return dictionnary[i].key;
 }
 
 /**
- * C++ version 0.4 char* style "itoa":
- * Written by Lukás Chmela
- * Released under GPLv3.
-*/
-char* itoa(int value, char* result, int base) 
-{
-    // check that the base if valid
-    if (base < 2 || base > 36) { *result = '\0'; return result; }
-
-    char* ptr = result, *ptr1 = result, tmp_char;
-    int tmp_value;
-
-    do 
-    {
-        tmp_value = value;
-        value /= base;
-        *ptr++ = "zyxwvutsrqponmlkjihgfedcba9876543210123456789abcdefghijklmnopqrstuvwxyz" [35 + (tmp_value - value * base)];
-    } while ( value );
-
-    // Apply negative sign
-    if (tmp_value < 0) *ptr++ = '-';
-    *ptr-- = '\0';
-    while(ptr1 < ptr) 
-    {
-        tmp_char = *ptr;
-        *ptr--= *ptr1;
-        *ptr1++ = tmp_char;
+ * Transforms int to ASCII
+ * @param num Number to transform
+ * @param buffer Where to store our result
+ * @param base Base to convert to (only 10 supported)
+ * @return buffer
+ * */ 
+char* itoa(int num, char* buffer, int base) {
+    int curr = 0;
+ 
+    if (num == 0) {
+        // Base case
+        buffer[curr++] = '0';
+        buffer[curr] = '\0';
+        return buffer;
     }
-
-    return result;
+ 
+    int num_digits = 0;
+ 
+    if (num < 0) {
+        if (base == 10) {
+            num_digits ++;
+            buffer[curr] = '-';
+            curr ++;
+            // Make it positive and finally add the minus sign
+            num *= -1;
+        }
+        else
+            // Unsupported base. Return NULL
+            return NULL;
+    }
+ 
+    num_digits += (int)floor(log(num) / log(base)) + 1;
+ 
+    // Go through the digits one by one
+    // from left to right
+    while (curr < num_digits) {
+        // Get the base value. For example, 10^2 = 1000, for the third digit
+        int base_val = (int) pow(base, num_digits-1-curr);
+ 
+        // Get the numerical value
+        int num_val = num / base_val;
+ 
+        char value = num_val + '0';
+        buffer[curr] = value;
+ 
+        curr ++;
+        num -= base_val * num_val;
+    }
+    buffer[curr] = '\0';
+    return buffer;
 }
