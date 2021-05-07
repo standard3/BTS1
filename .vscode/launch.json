@@ -8,14 +8,21 @@
             "name": "gcc.exe - Générer et déboguer le fichier actif",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}/${fileBasenameNoExtension}.out",
-            "args": [],
+            "program": "${fileDirname}/${fileBasenameNoExtension}.exe",
+            "args": [
+                "cle1",
+                "valeur1",
+                "cle2",
+                "valeur2",
+                "cle3",
+                "valeur3"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
-            "miDebuggerPath": "/usr/bin/gdb",
+            "miDebuggerPath": "E:\\Projects\\vendors\\mingw64\\bin",
             "setupCommands": [
                 {
                     "description": "Activer l'impression en mode Pretty pour gdb",

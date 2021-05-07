@@ -21,6 +21,8 @@ typedef struct
 }
 Dictionnary;
 
+Identifier*  compressData     (int, int, Dictionnary[], Identifier[]);
+Dictionnary* fillDictionnary  (int, Dictionnary[], FILE*);
 int   countLinesInDictionnary (FILE*);
 int   isInDictionnary         (int, Dictionnary[], char[]);
 void  putInDictionnary        (int, FILE*,         char[]);
@@ -45,12 +47,14 @@ int main(int argc, char * argv[])
         return -1;
     } 
     
-    FILE        *grammar = fopen("/home/abel/Desktop/Repositories/BTS1/99_Devoirs/bts1_projet_01/gramar.csv", "a+"); // Read + append
+    FILE        *grammar = fopen("E:\\Projects\\bts1\\BTS1\\99_Devoirs\\bts1_projet_01\\gramar.csv", "a+"); // Read + append
     int         grammarLinesCount = countLinesInDictionnary(grammar);
     int         j = 0;
-    char        buffer[256];
     Identifier  *arguments   = malloc((argc - 1) / 2    * sizeof(Identifier));
     Dictionnary *dictionnary = malloc(grammarLinesCount * sizeof(Dictionnary));
+    
+    // Stockage du dictionnaire dans la structure
+    dictionnary = fillDictionnary(grammarLinesCount, dictionnary, grammar);
 
     // Stockage des arguments d'entrée dans la structure
     for (int i = 1; i < argc; i++)
@@ -64,38 +68,19 @@ int main(int argc, char * argv[])
             strcpy(arguments[j - 1].value, argv[i]);
 
         // Si le mot n'a pas d'équivalence, on la créer
-        if (!isInDictionnary(grammarLinesCount, dictionnary, argv[i]))
+        if (!isDigitExtended(argv[i]) && !isInDictionnary(grammarLinesCount, dictionnary, argv[i]))
             putInDictionnary(grammarLinesCount, grammar, toLowerExtended(argv[i]));
     }
 
-    // Stockage du dictionnaire dans la structure
-    fseek(grammar, 0, SEEK_SET);
-    for (int i = 0; i < grammarLinesCount; i++)
-        fscanf(grammar, "%d:%[^\n]", &dictionnary[i].key, dictionnary[i].value);
-    
+    // Update si nouveaux mots
+    dictionnary = fillDictionnary(grammarLinesCount, dictionnary, grammar);
     
     /* TEST Affichage du dictionnaire */
     for (int i = 0; i < grammarLinesCount; i++)
         printf("[%d:%s]\n", dictionnary[i].key, dictionnary[i].value);
     
-    
-    // Conversion des mots par leurs index dans le dictionnaire 
-    for (int i = 0; i < (argc - 1) / 2; i++)
-    {
-        itoa(
-            findIndexOf(grammarLinesCount, dictionnary, arguments[i].key), 
-            buffer, 
-            10
-        );
-        strcpy(arguments[i].key, buffer);
-
-        itoa(
-            findIndexOf(grammarLinesCount, dictionnary, arguments[i].value), 
-            buffer, 
-            10
-        );
-        strcpy(arguments[i].value, buffer);
-    }
+    // Conversion des mots par leurs index dans le dictionnaire
+    arguments = compressData((argc - 1) / 2, grammarLinesCount, dictionnary, arguments); 
     
     // Affichage simple
     // Format de fin : 1:200;:2;2:2;3:48;4:58,3,78;
@@ -109,13 +94,47 @@ int main(int argc, char * argv[])
 }
 
 /**
+ * Compress data to export, replaces strings by their numerical value in dictionnary
+ * @param totalIdentifier Number of total identifiers (key:value)
+ * @param grammarLinesCount Number of lines in dictionnary
+ * @param dictionnary Dictionnary to copy values from
+ * @param arguments Identifier to return with compressed data
+ * @return Compressed data
+ * */ 
+Identifier* compressData(int totalIdentifier, int grammarLinesCount, Dictionnary dictionnary[], Identifier arguments[])
+{
+    char buffer[256];
+    for (int i = 0; i < totalIdentifier; i++)
+    {
+        itoa(
+            findIndexOf(grammarLinesCount, dictionnary, arguments[i].key), 
+            buffer, 
+            10
+        );
+        strcpy(arguments[i].key, buffer);
+
+        if (!isDigitExtended(arguments[i].value)) // Si pas un nombre entier
+        {
+            itoa(
+                findIndexOf(grammarLinesCount, dictionnary, arguments[i].value), 
+                buffer, 
+                10
+            );
+            strcpy(arguments[i].value, buffer);
+        }
+    }
+
+    return arguments;
+}
+
+/**
  * Count number of lines of the dictionnary
  * @param grammar Dictionnary file stream
  * @return Number of lines
  * */ 
 int countLinesInDictionnary(FILE *grammar)
 {
-    int  counter;
+    int  counter = 0;
     char ch;
 
     if (grammar != NULL)
@@ -123,13 +142,29 @@ int countLinesInDictionnary(FILE *grammar)
         while ((ch = fgetc(grammar)) != EOF)
             if (ch == '\n')
                 counter++;
-        return counter;
+        return counter + 1;
     }
     else
     {
         printf("Error : grammar file cannot be opened\n");
         exit(0);
     }
+}
+
+/**
+ * Fills a dictionnary structure with file stream 
+ * @param grammarLinesCount Number of lines in dictionnary
+ * @param dictionnary Dictionnary to copy values from
+ * @param grammar Dictionnary file stream
+ * @return Filled dictionnary
+ * */ 
+Dictionnary* fillDictionnary(int grammarLinesCount, Dictionnary dictionnary[], FILE *grammar)
+{
+    fseek(grammar, 0, SEEK_SET);
+    for (int i = 0; i < grammarLinesCount; i++)
+        fscanf(grammar, "%d:%[^\n]", &dictionnary[i].key, dictionnary[i].value);
+
+    return dictionnary;
 }
 
 /**
