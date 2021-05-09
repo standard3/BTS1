@@ -1,4 +1,5 @@
 // gcc -lm prepareData.c -o prepareData.out && ./prepareData.out "Surface" "1200m2" "Niveau" "0" "Total niveaux" "1" "Issues" "5" "Pieces" "5" "Charpente" "Metallique" "Toit" "Acier" "Murs" "Parpaing beton" "Gaz" "Arrivee gaz de ville" "" "Nord est" "" "25m"
+
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -22,32 +23,26 @@ typedef struct
 }
 Dictionnary;
 
-Identifier*  compressData     (int, int, Dictionnary[], Identifier[]);
-Dictionnary* fillDictionnary  (int, Dictionnary[], FILE*);
-int   countLinesInDictionnary (FILE*);
-int   isInDictionnary         (int, Dictionnary[], char[]);
-void  putInDictionnary        (int, FILE*,         char[]);
-char* toLowerExtended         (char[]);
-int   isDigitExtended         (char[]);
-int   containsDigit           (char[]);
-int   findIndexOf             (int, Dictionnary[], char[]);
-char* itoa                    (int, char*, int);
-
-/*  TODO:
-*   Implémenter système pour prendre en compte les éléments numériques ET chaînes de caractères (ex: )
-*/
-
-// Si temps restant, optimiser avec passage d'arguments par pointeurs
+Identifier*  compressData            (int, int, Dictionnary[], Identifier[]);
+Dictionnary* fillDictionnary         (int, Dictionnary[], FILE*);
+int          countLinesInDictionnary (FILE*);
+int          isInDictionnary         (int, Dictionnary[], char[]);
+void         putInDictionnary        (int, FILE*,         char[]);
+char*        toLowerExtended         (char[]);
+int          isDigitExtended         (char[]);
+int          containsDigit           (char[]);
+int          findIndexOf             (int, Dictionnary[], char[]);
+char*        itoa                    (int, char*, int);
 
 int main(int argc, char * argv[])
 {
     if (!((argc - 1) % 2 == 0)) // Si impair
     {
-        printf("Error : key without value (%d arguments)\n", argc);
+        printf("Error : key without value (%d arguments => odd number)\n", argc);
         return -1;
     } 
     
-    FILE        *grammar = fopen("/home/abel/Desktop/Repositories/BTS1/99_Devoirs/bts1_projet_01/gramar.csv", "a+"); // Read + append
+    FILE        *grammar = fopen("gramar.csv", "a+"); // Read + append
     int         grammarLinesCount = countLinesInDictionnary(grammar);
     int         j = 0;
     Identifier  *arguments   = malloc((argc - 1) / 2    * sizeof(Identifier));
@@ -72,7 +67,7 @@ int main(int argc, char * argv[])
             putInDictionnary(grammarLinesCount, grammar, toLowerExtended(argv[i]));
     }
 
-    // Update si nouveaux mots
+    // Màj du dictionnaire au cas où nouveau mot
     dictionnary = fillDictionnary(grammarLinesCount, dictionnary, grammar);
     
     // Conversion des mots par leurs index dans le dictionnaire
@@ -101,6 +96,7 @@ Identifier* compressData(int totalIdentifier, int grammarLinesCount, Dictionnary
     char buffer[256];
     for (int i = 0; i < totalIdentifier; i++)
     {
+        // Clé
         itoa(
             findIndexOf(grammarLinesCount, dictionnary, arguments[i].key), 
             buffer, 
@@ -108,9 +104,10 @@ Identifier* compressData(int totalIdentifier, int grammarLinesCount, Dictionnary
         );
         strcpy(arguments[i].key, buffer);
 
+        // Valeur
         if (!isDigitExtended(arguments[i].value)) // On ne compresse pas les chiffres
         {
-            if (containsDigit(arguments[i].value)) // Chaine + entier (ex Bouteilles x 25)
+            if (containsDigit(arguments[i].value)) // Chaine + entier (ex: Bouteilles x 25)
             {
                 char tmpValue[41];
                 char tmpNumber[5];
