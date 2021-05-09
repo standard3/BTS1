@@ -1,4 +1,5 @@
 *.exe
+*.out
 .vscode
 .vscode/launch.json
-*.out
+.vscode/tasks.json
