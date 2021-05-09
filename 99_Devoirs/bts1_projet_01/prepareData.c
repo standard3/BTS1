@@ -108,14 +108,32 @@ Identifier* compressData(int totalIdentifier, int grammarLinesCount, Dictionnary
         );
         strcpy(arguments[i].key, buffer);
 
-        if (!isDigitExtended(arguments[i].value)) // Si pas un nombre entier
+        if (!isDigitExtended(arguments[i].value)) // On ne compresse pas les chiffres
         {
-            itoa(
-                findIndexOf(grammarLinesCount, dictionnary, arguments[i].value), 
-                buffer, 
-                10
-            );
-            strcpy(arguments[i].value, buffer);
+            if (containsDigit(arguments[i].value)) // Chaine + entier (ex Bouteilles x 25)
+            {
+                char tmpValue[41];
+                char tmpNumber[5];
+
+                sscanf(arguments[i].value, "%s x %s", tmpValue, tmpNumber);
+                itoa(
+                    findIndexOf(grammarLinesCount, dictionnary, tmpValue),
+                    buffer,
+                    10
+                );
+                strcat(buffer, tmpNumber);
+                strcpy(arguments[i].value, buffer);
+            }
+            else // Chaine seulement
+            {
+                itoa(
+                    findIndexOf(grammarLinesCount, dictionnary, arguments[i].value), 
+                    buffer, 
+                    10
+                );
+                strcpy(arguments[i].value, buffer);
+            }
+            
         }
     }
 
