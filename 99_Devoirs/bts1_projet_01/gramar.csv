@@ -15,15 +15,22 @@
 15:acier
 16:parpaing beton
 17:arrivee gaz de ville
-18:nord-est
-19:tableau edf
+18:nord
+19:sud
 20:est
-21:propane
-22:bouteilles
-23:ouest
-24:m²
-25:acetone
-26:citerne
-27:ouest nord-ouest
-28:manitou
-29:rayonnage a palettes
+21:ouest
+22:nord est
+23:sud est
+24:nord ouest
+25:sud ouest
+26:ouest sud ouest
+27:ouest nord ouest
+28:est sud est
+29:est nord est
+30:tableau edf
+31:propane
+32:bouteille
+33:acetone
+34:citerne
+35:manitou
+36:rayonnage a palette
