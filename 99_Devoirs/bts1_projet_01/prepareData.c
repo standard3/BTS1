@@ -68,7 +68,7 @@ int main(int argc, char * argv[])
             strcpy(arguments[j - 1].value, argv[i]);
 
         // Si le mot n'a pas d'équivalence, on la créer
-        if (!containsDigit(argv[i]) && !isInDictionnary(grammarLinesCount, dictionnary, argv[i]))
+        if (!containsDigit(argv[i]) && !isDigitExtended(argv[i]) && !isInDictionnary(grammarLinesCount, dictionnary, argv[i]))
             putInDictionnary(grammarLinesCount, grammar, toLowerExtended(argv[i]));
     }
 
@@ -80,7 +80,7 @@ int main(int argc, char * argv[])
         printf("[%d:%s]\n", dictionnary[i].key, dictionnary[i].value);*/
     
     // Conversion des mots par leurs index dans le dictionnaire
-    //arguments = compressData((argc - 1) / 2, grammarLinesCount, dictionnary, arguments); 
+    arguments = compressData((argc - 1) / 2, grammarLinesCount, dictionnary, arguments); 
     
     // Affichage simple
     // Format de fin : 1:200;:2;2:2;3:48;4:58,3,78;
@@ -142,7 +142,7 @@ int countLinesInDictionnary(FILE *grammar)
         while ((ch = fgetc(grammar)) != EOF)
             if (ch == '\n')
                 counter++;
-        return counter + 1;
+        return counter;
     }
     else
     {
