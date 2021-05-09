@@ -1,3 +1,4 @@
+// gcc -lm prepareData.c -o prepareData.out && ./prepareData.out "Surface" "1200m2" "Niveau" "0" "Total niveaux" "1" "Issues" "5" "Pieces" "5" "Charpente" "Metallique" "Toit" "Acier" "Murs" "Parpaing beton" "Gaz" "Arrivee gaz de ville" "" "Nord est" "" "25m"
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -28,12 +29,11 @@ int   isInDictionnary         (int, Dictionnary[], char[]);
 void  putInDictionnary        (int, FILE*,         char[]);
 char* toLowerExtended         (char[]);
 int   isDigitExtended         (char[]);
+int   containsDigit           (char[]);
 int   findIndexOf             (int, Dictionnary[], char[]);
 char* itoa                    (int, char*, int);
 
 /*  TODO:
-*   Implémenter les valeurs numériques ou chaînes de caractères statiques (Surface...)
-*   Implémenter système pour détecter si un chiffre (oui = pas de compression, pas d'entrée dans grammar.csv, sinon ignorer)
 *   Implémenter système pour prendre en compte les éléments numériques ET chaînes de caractères (ex: )
 */
 
@@ -47,7 +47,7 @@ int main(int argc, char * argv[])
         return -1;
     } 
     
-    FILE        *grammar = fopen("E:\\Projects\\bts1\\BTS1\\99_Devoirs\\bts1_projet_01\\gramar.csv", "a+"); // Read + append
+    FILE        *grammar = fopen("/home/abel/Desktop/Repositories/BTS1/99_Devoirs/bts1_projet_01/gramar.csv", "a+"); // Read + append
     int         grammarLinesCount = countLinesInDictionnary(grammar);
     int         j = 0;
     Identifier  *arguments   = malloc((argc - 1) / 2    * sizeof(Identifier));
@@ -68,7 +68,7 @@ int main(int argc, char * argv[])
             strcpy(arguments[j - 1].value, argv[i]);
 
         // Si le mot n'a pas d'équivalence, on la créer
-        if (!isDigitExtended(argv[i]) && !isInDictionnary(grammarLinesCount, dictionnary, argv[i]))
+        if (!containsDigit(argv[i]) && !isInDictionnary(grammarLinesCount, dictionnary, argv[i]))
             putInDictionnary(grammarLinesCount, grammar, toLowerExtended(argv[i]));
     }
 
@@ -76,11 +76,11 @@ int main(int argc, char * argv[])
     dictionnary = fillDictionnary(grammarLinesCount, dictionnary, grammar);
     
     /* TEST Affichage du dictionnaire */
-    for (int i = 0; i < grammarLinesCount; i++)
-        printf("[%d:%s]\n", dictionnary[i].key, dictionnary[i].value);
+    /*for (int i = 0; i < grammarLinesCount; i++)
+        printf("[%d:%s]\n", dictionnary[i].key, dictionnary[i].value);*/
     
     // Conversion des mots par leurs index dans le dictionnaire
-    arguments = compressData((argc - 1) / 2, grammarLinesCount, dictionnary, arguments); 
+    //arguments = compressData((argc - 1) / 2, grammarLinesCount, dictionnary, arguments); 
     
     // Affichage simple
     // Format de fin : 1:200;:2;2:2;3:48;4:58,3,78;
@@ -234,10 +234,22 @@ int isDigitExtended(char word[])
         if (isdigit(word[i]))
             counter++;
 
-    if (counter == strlen(word))
-        return 1;
-    else
-        return 0;
+    return (counter == strlen(word)) ? 1 : 0;
+}
+
+/**
+ * Check if a string contains digits
+ * @param word The string in which we seek digits
+ * @return 1 if the string contains digits, else 0
+ * */ 
+int containsDigit(char word[])
+{
+    int counter;
+    for (int i = 0; i < strlen(word); i++)
+        if (isdigit(word[i]))
+            counter++;
+
+    return (counter > 0) ? 1 : 0;
 }
 
 /**
