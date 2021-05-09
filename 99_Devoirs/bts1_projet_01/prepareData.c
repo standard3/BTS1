@@ -75,14 +75,9 @@ int main(int argc, char * argv[])
     // Update si nouveaux mots
     dictionnary = fillDictionnary(grammarLinesCount, dictionnary, grammar);
     
-    /* TEST Affichage du dictionnaire */
-    /*for (int i = 0; i < grammarLinesCount; i++)
-        printf("[%d:%s]\n", dictionnary[i].key, dictionnary[i].value);*/
-    
     // Conversion des mots par leurs index dans le dictionnaire
     arguments = compressData((argc - 1) / 2, grammarLinesCount, dictionnary, arguments); 
     
-    // Affichage simple
     // Format de fin : 1:200;:2;2:2;3:48;4:58,3,78;
     for (int i = 0; i < (argc - 1) / 2; i++)
         printf("%s:%s;", arguments[i].key, arguments[i].value);
