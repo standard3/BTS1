@@ -8,16 +8,16 @@
             "name": "gcc.exe - Générer et déboguer le fichier actif",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}/${fileBasenameNoExtension}.out",
+            "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
             "args": [
-                "Surface", "1200m2", "Niveau", "0", "Total niveaux", "1", "Issues", "5", "Pieces", "5", "Charpente", "Metallique", "Toit", "Acier", "Murs", "Parpaing beton", "Gaz", "Arrivee gaz de ville", "", "Nord est", "", "25m"
+                "Surface", "1200", "Niveau", "0", "Total niveaux", "1", "Issues", "5", "Pieces", "5"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
-            "miDebuggerPath": "/usr/bin/gdb",
+            "miDebuggerPath": "C:\\projects\\vendors\\mingw64\\bin\\gdb.exe",
             "setupCommands": [
                 {
                     "description": "Activer l'impression en mode Pretty pour gdb",

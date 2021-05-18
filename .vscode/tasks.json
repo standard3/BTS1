@@ -3,16 +3,15 @@
         {
             "type": "shell",
             "label": "C/C++: gcc.exe build active file",
-            "command": "/usr/bin/gcc",
+            "command": "C:\\projects\\vendors\\mingw64\\bin\\gcc.exe",
             "args": [
-                "-lm", // math.h
                 "-g",
                 "${file}",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}.out"
+                "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "C:\\projects\\vendors\\mingw64\\bin"
             },
             "problemMatcher": [
                 "$gcc"
@@ -20,7 +19,8 @@
             "group": {
                 "kind": "build",
                 "isDefault": true
-            }
+            },
+            "detail": "Generated task by Debugger"
         }
     ],
     "version": "2.0.0"

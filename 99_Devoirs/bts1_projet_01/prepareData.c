@@ -6,7 +6,7 @@
 #include <math.h>
 #include <stdlib.h>
 
-#define MAX_KEY   4
+#define MAX_KEY   40
 #define MAX_VALUE 40
 
 typedef struct
