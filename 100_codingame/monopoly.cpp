@@ -7,30 +7,31 @@ using namespace std;
 
 typedef struct Player
 {
-    string username;
-    int position;
+    string  username;
+    int     position = 0;
+    int     dices[2];
 } Player;
 
 int main()
 {
-    vector <Player> playerList;
+    vector  <Player> playerList;
+    int     totalPlayers;
+    int     totalDices;
+    int     maxPosition = 40;
+    string  dice;
+    string  boardline;
     
-    int totalPlayers;
-    int totalDices;
-    string dice;
-    string boardline;
 
     // Retrieving total players
     cin >> totalPlayers; cin.ignore();
     for (int i = 0; i < totalPlayers; i++)
     {
-        // "<playerName> <initialPosition>"
-        string player;
-        getline(cin, player);
+        string username;
+        int    position;
 
-        size_t pos = player.find(" ");
+        cin >> username >> position;
 
-        Player tmp = { player, stoi(player.substr(pos))};
+        Player tmp = { username, position};
         playerList.push_back(tmp);
     }
 
@@ -40,10 +41,9 @@ int main()
     {
         string dice;
         getline(cin, dice);
-        cout << dice;
     }
 
-    for (int i = 0; i < 40; i++)
+    for (int i = 0; i < maxPosition; i++)
     {
         string boardline;
         getline(cin, boardline);
@@ -51,10 +51,7 @@ int main()
 
     
 
-    bool gameLoop = true;
-    for (int i = 0; gameLoop == 1; i++)
-    {
-        break;
-    }
+    for (int i = 0; i < totalPlayers; i ++)
+        cout << playerList[i].username << " " << playerList[i].position << endl;
 
 }
