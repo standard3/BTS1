@@ -1,10 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct entier
-{
+typedef struct entier {
     int valeur;
-    struct entier *suivant;
+    struct entier * suivant;
 } entier;
 
 /**
@@ -12,52 +11,50 @@ typedef struct entier
  * @param valeur La valeur de l'entier
  * @return Le pointeur vers l'entier créé
  * */
-entier *entier_creer(int valeur);
+entier * entier_creer       (int valeur);
 /**
- * Crée et ajoute un entier à la fin de la liste chaînée d'entiers 
+ * Crée et ajoute un entier à la fin de la liste chaînée d'entiers
  * @param liste Un pointeur vers le premier élément de la liste, peut-être NULL
  * @param valeur La valeur de l'entier à créer et ajouter
  * @return Un pointeur vers le premier élément de la liste
  * */
-
-entier *entiers_ajouter(entier *liste, int valeur);
+entier * entiers_ajouter    (entier * liste, int valeur);
 /**
  * Compte le nombre d'éléments dans la liste chaînée
  * @param liste Un pointeur vers le premier élément de la liste, peut-être NULL
  * @return Le nombre d'éléments dans la liste chaînée
  * */
-int entiers_compter(entier *liste);
+int      entiers_compter    (entier * liste);
 /**
  * Renvoie l'élément à l'index demandé
  * @param liste Un pointeur vers le premier élément de la liste, peut-être NULL
  * @param index L'index de l'élément demandé
  * @return Un pointeur vers l'élément attendu ou NULL si l'index est hors-limites
  * */
-entier *entiers_recuperer(entier *liste, int index);
+entier * entiers_recuperer  (entier * liste, int index);
 /**
  * Supprime l'élément à l'index demandé si possible
  * @param liste Un pointeur vers le premier élément de la liste, peut-être NULL
  * @param index L'index de l'élément à supprimer
  * @return Un pointeur vers le premier élément de la liste
  * */
-entier *entiers_supprimer(entier *liste, int index);
+entier * entiers_supprimer  (entier * liste, int index);
 /**
  * Vide la liste et libère la mémoire
  * @param liste Un pointeur vers le premier élément de la liste, peut-être NULL
  * @return NULL
  * */
-void *entiers_liberer(entier *liste);
+void *   entiers_liberer    (entier * liste);
 /**
  * Affiche la liste
  * @param liste Un pointeur vers le premier élément de la liste, peut-être NULL
  * @return Rien du tout
  * */
-void entiers_afficher(entier *liste);
+void     entiers_afficher   (entier * liste);
 
-int main()
-{
+int main() {
 
-    entier *liste = NULL, *element = NULL;
+    entier * liste = NULL, * element = NULL;
     int i;
 
     // Ajout de 5 valeurs
@@ -69,12 +66,11 @@ int main()
 
     // Comptage
     printf("\nCompte : %d\n\n", entiers_compter(liste));
-
+    
     // Récupération et affichage d'un élément
     i = 3;
     element = entiers_recuperer(liste, i);
-    if (element != NULL)
-    {
+    if (element != NULL) {
         printf("%2d : %3d\n\n", i, element->valeur);
     }
 
@@ -98,91 +94,29 @@ int main()
     return 0;
 }
 
-entier *entier_creer(int valeur)
-{
-    //entier x;
-    // x.valeur = malloc(sizeof(entier));
-    entier *new = (entier *)malloc(sizeof(entier));
-    if (new != NULL)
-    {
-        new->valeur = valeur;
-        new->suivant = NULL;
-    }
+entier * entier_creer(int valeur) {
     return NULL;
 }
 
-entier *entiers_ajouter(entier *liste, int valeur)
-{
-    int debut;
-    if (liste == NULL)
-    {
-        // si la liste est vide
-        return entier_creer(valeur);
-    }
-
-    debut = liste;
-    //sinon
-    while (liste->suivant != NULL)
-    {
-        liste = liste->suivant;
-    }
-    //création d'un nouvel élement
-    liste->suivant = entier_creer(valeur);
-
-    return debut;
-}
-
-int entiers_compter(entier *liste)
-{
-    int element = 0;
-
-    while (liste != NULL)
-    {
-        liste = liste -> suivant;
-        element++;
-    }
-    return element;
-}
-
-entier *entiers_recuperer(entier *liste, int index)
-{
-    int i;
-    if (index < entiers_compter(liste))
-    {
-         while (i != index )
-    {
-       liste = liste->suivant;
-        liste++;  
-    }
-    
-    }
-    
-   
+entier * entiers_ajouter(entier * liste, int valeur) {
     return NULL;
 }
 
-entier *entiers_supprimer(entier *liste, int index)
-{
-    int courant, precedent;
-if (index )
-{
-    /* code */
-}
-for (i = 0; i < index && courant != NULL; i++)
-{
-    precedent = courant;
-    courant = courant->suivant;
+int entiers_compter(entier * liste) {
+    return 0;
 }
 
-
-        return index;
+entier * entiers_recuperer(entier * liste, int index) {
+    return NULL;
 }
 
-void *entiers_liberer(entier *liste)
-{
-    entier *courant = liste, *suivant;
-    while (courant != NULL)
-    {
+entier * entiers_supprimer(entier * liste, int index) {
+    return NULL;
+}
+
+void * entiers_liberer(entier * liste) {
+    entier * courant = liste, * suivant;
+    while(courant != NULL) {
         suivant = courant->suivant;
         free(courant);
         courant = suivant;
@@ -190,12 +124,10 @@ void *entiers_liberer(entier *liste)
     return NULL;
 }
 
-void entiers_afficher(entier *liste)
-{
-    entier *courant = liste;
+void entiers_afficher(entier * liste) {
+    entier * courant = liste;
     int i;
-    for (i = 0; courant != NULL; i++)
-    {
+    for (i = 0; courant != NULL; i++) {
         printf("%2d : %3d\n", i, courant->valeur);
         courant = courant->suivant;
     }

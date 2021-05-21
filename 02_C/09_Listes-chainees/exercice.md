@@ -23,3 +23,10 @@
 7) **BONUS** : Créer la fonction ```entiers_premiere_occurence(entier * liste, int valeur)``` qui permet de renvoyer le premier élément dont la valeur correspond à la valeur passée en argument
 
 8) **SUPER BONUS** : Créer la fonction ```entiers_concatener(entier * liste1, entier * liste2)``` qui permet de... devinez !
+
+/**
+ * Supprime l'élément à l'index demandé si possible
+ * @param liste Un pointeur vers le premier élément de la liste, peut-être NULL
+ * @param index L'index de l'élément à supprimer
+ * @return Un pointeur vers le premier élément de la liste
+ * */
